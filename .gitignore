@@ -1,2 +1,4 @@
 platform-seeedboards/
-Code/
+v3.4.0/
+build/
+.west/
