@@ -1,0 +1,2157 @@
+[
+    {
+        "json_api_version": 1,
+        "version": "v2.0.0-rc2",
+        "toolchains": [
+            {
+                "version": "20220531T131244",
+                "name": "ncs-toolchain-linux-x86_64-v2.0.0-rc2-20220531T131244-9389261.tar.gz",
+                "sha512": "4077a5fc95061af25748cfeec8b587ad69da9695fed165cd946afae33804e69a6991a9ef34e7dd17790abbaf2a541b5f356e7e21b0c47edf0693582aef61d9e8"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.0.0",
+        "toolchains": [
+            {
+                "version": "20220912T113235",
+                "name": "ncs-toolchain-linux-x86_64-v2.0.0-20220912T113235-50de2c8.tar.gz",
+                "sha512": "3c8fc5126e93dce53d736be67eb16b7c4e4fd8ec69cc2216aa8d2614bd95ed1ffacea071e045349e10689d4823a5b6afda6af9b78b0c66ed9806faca5ddf5428"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.0.1",
+        "toolchains": [
+            {
+                "version": "20220912T120429",
+                "name": "ncs-toolchain-linux-x86_64-v2.0.1-20220912T120429-50de2c8.tar.gz",
+                "sha512": "76611bc9240655b235bf3948afb29b46937e4eed4a9ac7afb027690ddd45dd5d7b68a602c84f74c5813efa13715bdbf4920498b75121d4eb574eb5400c9b24a0"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.0.2",
+        "toolchains": [
+            {
+                "version": "20220912T122841",
+                "name": "ncs-toolchain-linux-x86_64-v2.0.2-20220912T122841-50de2c8.tar.gz",
+                "sha512": "ca94849feb6d54d362995987bdd4e9eee75055df83067e077c6988e192a448353d68794f425f9dbc01fb393a158a3773597b12c6d1ea50163890d11acd7db772"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.0-rc1",
+        "toolchains": [
+            {
+                "version": "20220906T092710",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.0-rc1-20220906T092710-50de2c8.tar.gz",
+                "sha512": "f8d5f82db94c34eb1380446e2cd770172073238412f513dbe4df0140aeee7d690d042ecc35c315a06ace68ce246e0889bc9fd129355dfe0ed368aba4369d416e"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.0-rc2",
+        "toolchains": [
+            {
+                "version": "20220909T135449",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.0-rc2-20220909T135449-50de2c8.tar.gz",
+                "sha512": "2579c812c78e2fed386a9510d75d31301f194f0388adbd1d6a6bc2e325d4c765677564a3d6f620b131b524231d9a366cc0541e2a004808d96c63c65b84fdc42f"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.0",
+        "toolchains": [
+            {
+                "sha512": "94d87a4ec7d62ddd089cc83de57a6a129f3ddb55cc2c946f5e9734699600f32ac00944a0c6a7400146264268b9c181cf426c8b643f73ae650f19cb5b2f077293",
+                "version": "20220915T105857",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.0-20220915T105857-67a1888.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.1",
+        "toolchains": [
+            {
+                "sha512": "4653608539a4709a910ff818697bb0b89bf3a7a3305e7e5565ebb8de7d066192f099538f8e5a720dfe241798a4746d56b4bf7a3f0e2b1e64c36ad9992320175d",
+                "version": "20221021T094950",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.1-20221021T094950-f88d497.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.2",
+        "toolchains": [
+            {
+                "sha512": "010b2a728df58825ece26e19f83fe7552ef0a2e7875edc4132c3ed57e2fa67c6b681d877bc4fc2a2cb3a07a32b74df1cbdab58a4e03ca4b71cefb93bf9fc0f3c",
+                "version": "20221104T122946",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.2-20221104T122946-f88d497.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.1.3",
+        "toolchains": [
+            {
+                "sha512": "ff39eda5600aea77c9c34383b87118103e8661f144fcc38099785de17b1e8c6fd1c813c41c5d6897dfdaa05361a1ae3cb885c878d721005a224ebed7250d9034",
+                "version": "20230109T102448",
+                "name": "ncs-toolchain-linux-x86_64-v2.1.3-20230109T102448-f88d497.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.2.0-rc1",
+        "toolchains": [
+            {
+                "name": "ncs-toolchain-linux-x86_64-v2.2.0-rc1-20221128T085428-f88d497.tar.gz",
+                "version": "20221128T085428",
+                "sha512": "d1f06f879c2dfba97664c98a1d887c10f4adef89d9b43255cbaa250bb57dd3148592affe9fafcc9735acc3d6e854d907bb4c1c9897b36f7dd12cb46a8108fd36"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.2.0",
+        "toolchains": [
+            {
+                "version": "20221207T155636",
+                "name": "ncs-toolchain-linux-x86_64-v2.2.0-20221207T155636-f88d497.tar.gz",
+                "sha512": "7f8ba9745a3b8ac6a28989cb96a5b0e75f5e63bea5d9f0f146b7797bb560b8ddea507b8041b43f6343787367378e253606603474981b1fba52dd78bdfdc7fe6a"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.2.99-dev3",
+        "toolchains": [
+            {
+                "version": "20230130T134812",
+                "name": "ncs-toolchain-linux-x86_64-v2.2.99-dev3-20230130T134812-75e5684.tar.gz",
+                "sha512": "c88a46f456994a84b69b48c5e6b2e1082443556e89711a597fd7512c8b0cc606d3f5a0791136d0912eab5e867069346b2baa288f00c0044199ac0a4cacd347d5"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.3.0-rc1",
+        "toolchains": [
+            {
+                "version": "20230216T133738",
+                "sha512": "d26ba4486cc6c99a054f409ae2ffb0aac6130abd0a949272f88df406b48a53cd097ffeb4fcf72a92a356d2f6968642be846fe8a33aeb5b8432b8ab05032cc85d",
+                "name": "ncs-toolchain-linux-x86_64-v2.3.0-rc1-20230216T133738-75e5684.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 1,
+        "version": "v2.3.0",
+        "toolchains": [
+            {
+                "sha512": "af52588210bce38b6dbc1133bcc6e1eeb0b1f9a924d4dbe41c11bca1c1bf81d1b7c976a62eb68eb3f626a9a094ec3bb59f809aa317966828459aabbb61719595",
+                "version": "20230302T121949",
+                "name": "ncs-toolchain-linux-x86_64-v2.3.0-20230302T121949-75e5684.tar.gz"
+            }
+        ]
+    },
+    {
+        "json_api_version": 2,
+        "key": "6de2668cb9",
+        "metadata": {
+            "version": "6de2668cb9",
+            "filename": "ncs-toolchain-x86_64-linux-6de2668cb9.tar.gz",
+            "sha512": "6cc97cf4d231046afaa18d6177ca48892dbe974e2aca294259842dcdd81de5d3b55f3a6670c9cb7dd100b0519f2fb0aae96d7aed9ada9af8e81a5d8df8a2b245",
+            "timestamp": 1684413554
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.0-rc1",
+        "metadata": {
+            "version": "6de2668cb9",
+            "filename": "ncs-toolchain-x86_64-linux-6de2668cb9.tar.gz",
+            "sha512": "6cc97cf4d231046afaa18d6177ca48892dbe974e2aca294259842dcdd81de5d3b55f3a6670c9cb7dd100b0519f2fb0aae96d7aed9ada9af8e81a5d8df8a2b245",
+            "timestamp": 1684413554
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "1f9b40e71a",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.1",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.2",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "08c29fe9b2",
+        "metadata": {
+            "version": "08c29fe9b2",
+            "filename": "ncs-toolchain-x86_64-linux-08c29fe9b2.tar.gz",
+            "sha512": "decb5eff22d7fdff9bc2cd62c6e196a5a774ae57127dbb16cd10423e6823093afa31c430781b829428603aff7d3298f6bed27947dfc4d0ebb2f962b1bd48d34a",
+            "timestamp": 1695282859
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.0-rc1",
+        "metadata": {
+            "version": "08c29fe9b2",
+            "filename": "ncs-toolchain-x86_64-linux-08c29fe9b2.tar.gz",
+            "sha512": "decb5eff22d7fdff9bc2cd62c6e196a5a774ae57127dbb16cd10423e6823093afa31c430781b829428603aff7d3298f6bed27947dfc4d0ebb2f962b1bd48d34a",
+            "timestamp": 1695282859
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7795df4459",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.0-rc2",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.0",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "35e218d722",
+        "metadata": {
+            "version": "35e218d722",
+            "filename": "ncs-toolchain-x86_64-linux-35e218d722.tar.gz",
+            "sha512": "dd8840fff5c05aa11cc920e7307c7b2b6785596bb6ad0acad16eafe46c4ef5882b0b4a2378c76f92e11e8bd9e18c94bde96afe06e4f2f05c3f766458195ae897",
+            "timestamp": 1698425345
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "acc8beca2b",
+        "metadata": {
+            "version": "acc8beca2b",
+            "filename": "ncs-toolchain-x86_64-linux-acc8beca2b.tar.gz",
+            "sha512": "028f955365ed2aca9afc39775d6c127531774c8a7ac849a869c823b8fdfe1e75af4ce9da1c688b02479416794b9ad074ec79d1c92a8c4cd14e15db3d9e0a05a8",
+            "timestamp": 1699542280
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.1",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "5b74aa0e97",
+        "metadata": {
+            "version": "5b74aa0e97",
+            "filename": "ncs-toolchain-x86_64-linux-5b74aa0e97.tar.gz",
+            "sha512": "19f751225b9c395f53696b84144e29535ff00d483f953bae8953adcdf179827c38d35d669ddadc3b990c3ac9563a9af3f21ef7d5cd2377b77c255616d8cc9e48",
+            "timestamp": 1702288486
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "9b4a3fd03d",
+        "metadata": {
+            "version": "9b4a3fd03d",
+            "filename": "ncs-toolchain-x86_64-linux-9b4a3fd03d.tar.gz",
+            "sha512": "47ec1a48d7b3f8cf75dc550a0eb5c8de50998171247d6d2fd8f53daa2b76fdf06eed1de642b6784346e2dddfc1f2cfa6448cc1f3a2930c7378cd03876fc6f596",
+            "timestamp": 1706052301
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.2",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.3",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "781bcd7fd4",
+        "metadata": {
+            "version": "781bcd7fd4",
+            "filename": "ncs-toolchain-x86_64-linux-781bcd7fd4.tar.gz",
+            "sha512": "d65376061c17370cc049c9771210366ef9c46693dfd3755abfab6cfb4f58f19b45723449e82bcb53c5531f2ff3eb2d2980de5d2e89d1bebc0ac77b00401d9500",
+            "timestamp": 1706774481
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "6f5fd7ce4c",
+        "metadata": {
+            "version": "6f5fd7ce4c",
+            "filename": "ncs-toolchain-x86_64-linux-6f5fd7ce4c.tar.gz",
+            "sha512": "2220d5a20808b6a389a1689a5787ac080145f0a63d1da3553b0ec4884480ee836033195522cf2fb92092a71e9fa7c510be89d7f280a64970aa9d3ee08768eb8e",
+            "timestamp": 1707222795
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "6a10f76cad",
+        "metadata": {
+            "version": "6a10f76cad",
+            "filename": "ncs-toolchain-x86_64-linux-6a10f76cad.tar.gz",
+            "sha512": "2cf0110ea512c9670743624d2a34ddbaccb6d6aaf1bc9b1b7ed7000e0dbde82e6d55ea322580b9a8b1f0100f4d327ae6416de7fd89a93a542a37bed0ecc4c669",
+            "timestamp": 1707743060
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "19127b768d",
+        "metadata": {
+            "version": "19127b768d",
+            "filename": "ncs-toolchain-x86_64-linux-19127b768d.tar.gz",
+            "sha512": "92b058e21a2663de1a0427e731cf48866123a551bf624d31ad5c78624938f8dcbecd4b60653f186bc97554fa43631fa356fafb6d342dc33335c675019fdf99c0",
+            "timestamp": 1708428562
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.0-rc1",
+        "metadata": {
+            "version": "19127b768d",
+            "filename": "ncs-toolchain-x86_64-linux-19127b768d.tar.gz",
+            "sha512": "92b058e21a2663de1a0427e731cf48866123a551bf624d31ad5c78624938f8dcbecd4b60653f186bc97554fa43631fa356fafb6d342dc33335c675019fdf99c0",
+            "timestamp": 1708428562
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "2be090971e",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.0-rc2",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.0",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "d738e9cb55",
+        "metadata": {
+            "version": "d738e9cb55",
+            "filename": "ncs-toolchain-x86_64-linux-d738e9cb55.tar.gz",
+            "sha512": "c509119038f8605f84cd462ebaa62d6a887314959cd35104e549bae81164c47889273afed8cd8ae4e89b05234418b63ad00aad0b5463eade26279727f004e473",
+            "timestamp": 1712128386
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.5.3",
+        "metadata": {
+            "version": "7795df4459",
+            "filename": "ncs-toolchain-x86_64-linux-7795df4459.tar.gz",
+            "sha512": "5de8a274ca4e263cf75d9e11b6a261e8df203f0b056e3fb587e95ee47d8cffa19d682e6778cae405c4c93dd9c64904c0d89468366e99125d42f7e156c5ee7180",
+            "timestamp": 1697537762
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.1",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.0",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "0ed4ef3a35",
+        "metadata": {
+            "version": "0ed4ef3a35",
+            "filename": "ncs-toolchain-x86_64-linux-0ed4ef3a35.tar.gz",
+            "sha512": "04f659324403a6db9f6e7ab34e8e608e4b806cfb93cc3b98842d17840ca05bdcb4b45312010a4e5c97c97d314ba45ee60fe27a332fd3d6984a10f1b6752d9b7c",
+            "timestamp": 1715120035
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "14938f7ade",
+        "metadata": {
+            "version": "14938f7ade",
+            "filename": "ncs-toolchain-x86_64-linux-14938f7ade.tar.gz",
+            "sha512": "6e838bfeccb9053e5d77737626ccf634bf1bd3dcd4c716dc11e87dc863ce53ed926267c3bc971a8a457da95a9e01732ea02dcccfd1e51e2a57a6b1a2382d3526",
+            "timestamp": 1716323515
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.99-cs2",
+        "metadata": {
+            "version": "14938f7ade",
+            "filename": "ncs-toolchain-x86_64-linux-14938f7ade.tar.gz",
+            "sha512": "6e838bfeccb9053e5d77737626ccf634bf1bd3dcd4c716dc11e87dc863ce53ed926267c3bc971a8a457da95a9e01732ea02dcccfd1e51e2a57a6b1a2382d3526",
+            "timestamp": 1716323515
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "199ca12560",
+        "metadata": {
+            "version": "199ca12560",
+            "filename": "ncs-toolchain-x86_64-linux-199ca12560.tar.gz",
+            "sha512": "9159cb55b76e54aaf657a041df8f0c080ecc7409a236926186f6ce5b76704eae64cb9d2d125ac3cce3a1db16abb2307fd55e3bbbfb84cd08e96d66b688b1872b",
+            "timestamp": 1716321324
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "674f7b971c",
+        "metadata": {
+            "version": "674f7b971c",
+            "filename": "ncs-toolchain-x86_64-linux-674f7b971c.tar.gz",
+            "sha512": "a49b912cafbd9b8f5fb128172d1cec51258c23b6422c4b40e7f7e531f0e8331dc35193aab45bad400be4388ca718b01aacfbd3117f5ab8a61d9e1d32e8a502ab",
+            "timestamp": 1716386909
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "d61be77f22",
+        "metadata": {
+            "version": "d61be77f22",
+            "filename": "ncs-toolchain-x86_64-linux-d61be77f22.tar.gz",
+            "sha512": "5077468c68bd4c957d69d58c9cd0f3c675787bcb3af2ddc1e41a11b75c79628fba1ff41483837d43e2df0622933a0aeb5a3bfab45fccc579a779b841a60a50eb",
+            "timestamp": 1716885834
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "e9dba88316",
+        "metadata": {
+            "version": "e9dba88316",
+            "filename": "ncs-toolchain-x86_64-linux-e9dba88316.tar.gz",
+            "sha512": "630782094a86c6d6d2aa5fa587dc5f7ba92f7f8865ad8d4fbe5fe9b10e610d153bfd27e0335f0853948ae0570f71cf05cee40026c882fab0a5738d08bae1d405",
+            "timestamp": 1717603928
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.0-rc1",
+        "metadata": {
+            "version": "e9dba88316",
+            "filename": "ncs-toolchain-x86_64-linux-e9dba88316.tar.gz",
+            "sha512": "630782094a86c6d6d2aa5fa587dc5f7ba92f7f8865ad8d4fbe5fe9b10e610d153bfd27e0335f0853948ae0570f71cf05cee40026c882fab0a5738d08bae1d405",
+            "timestamp": 1717603928
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.0-rc2",
+        "metadata": {
+            "version": "e9dba88316",
+            "filename": "ncs-toolchain-x86_64-linux-e9dba88316.tar.gz",
+            "sha512": "630782094a86c6d6d2aa5fa587dc5f7ba92f7f8865ad8d4fbe5fe9b10e610d153bfd27e0335f0853948ae0570f71cf05cee40026c882fab0a5738d08bae1d405",
+            "timestamp": 1717603928
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.0-rc3",
+        "metadata": {
+            "version": "e9dba88316",
+            "filename": "ncs-toolchain-x86_64-linux-e9dba88316.tar.gz",
+            "sha512": "630782094a86c6d6d2aa5fa587dc5f7ba92f7f8865ad8d4fbe5fe9b10e610d153bfd27e0335f0853948ae0570f71cf05cee40026c882fab0a5738d08bae1d405",
+            "timestamp": 1717603928
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.0",
+        "metadata": {
+            "version": "e9dba88316",
+            "filename": "ncs-toolchain-x86_64-linux-e9dba88316.tar.gz",
+            "sha512": "630782094a86c6d6d2aa5fa587dc5f7ba92f7f8865ad8d4fbe5fe9b10e610d153bfd27e0335f0853948ae0570f71cf05cee40026c882fab0a5738d08bae1d405",
+            "timestamp": 1717603928
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "d4ca821522",
+        "metadata": {
+            "version": "d4ca821522",
+            "filename": "ncs-toolchain-x86_64-linux-d4ca821522.tar.gz",
+            "sha512": "81db65105e99cfb4a6bbdb48da23acc94ac2fc303e40cd580bea16fef00b1d77472afe611a36399898294eda6345bc06c3b703463ad515d49677c0a67bcc8177",
+            "timestamp": 1720083291
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7ab390198a",
+        "metadata": {
+            "version": "7ab390198a",
+            "filename": "ncs-toolchain-x86_64-linux-7ab390198a.tar.gz",
+            "sha512": "2de6862388b8667c17461329f5eb24ab0b0ca1db446b7d932d888eec17020198838c464fc23a3a02c75c512bb9e18635e4cf018f4d8f00a0dfe342bf2aa79e04",
+            "timestamp": 1722422565
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "cb46c8ba33",
+        "metadata": {
+            "version": "cb46c8ba33",
+            "filename": "ncs-toolchain-x86_64-linux-cb46c8ba33.tar.gz",
+            "sha512": "7a032fc838128078e7cb7b6f2d0cb4dd207ca8f984d50b2912631b8327f4af70b98011089232ff404afb08977affe0db5361a56b02193ff2e4dca3beb2974711",
+            "timestamp": 1722424069
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.4.4",
+        "metadata": {
+            "version": "1f9b40e71a",
+            "filename": "ncs-toolchain-x86_64-linux-1f9b40e71a.tar.gz",
+            "sha512": "586bee41973d8cb8bffcc6a42ca751c6b976c16b1a59f8c7cf0c36493df0d3333bdb5e957948374dcd11a2ae752ef44476cab422243da8662c2cf6837e74de9c",
+            "timestamp": 1685090030
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "5425d178a8",
+        "metadata": {
+            "version": "5425d178a8",
+            "filename": "ncs-toolchain-x86_64-linux-5425d178a8.tar.gz",
+            "sha512": "4efc75a61e8b1487516355b512881d978becdc74f7629bbff56fc800160bb57c5ab56f67f753eca2bd063b75eb0811aeab79271db21e39f571052fb45af0cf9d",
+            "timestamp": 1723468469
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "9338b70c26",
+        "metadata": {
+            "version": "9338b70c26",
+            "filename": "ncs-toolchain-x86_64-linux-9338b70c26.tar.gz",
+            "sha512": "79d7de6845aad4e8d3db7bdda0d89e9ce80d98bb35a89f8e43fc7338f473c37895316e3da859c1a41a8c01bee8ceb70e42e69e49f6a91d1d2e591eb374ce4409",
+            "timestamp": 1724420193
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.99-cs1",
+        "metadata": {
+            "version": "9338b70c26",
+            "filename": "ncs-toolchain-x86_64-linux-9338b70c26.tar.gz",
+            "sha512": "79d7de6845aad4e8d3db7bdda0d89e9ce80d98bb35a89f8e43fc7338f473c37895316e3da859c1a41a8c01bee8ceb70e42e69e49f6a91d1d2e591eb374ce4409",
+            "timestamp": 1724420193
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "2aae60c2f9",
+        "metadata": {
+            "version": "2aae60c2f9",
+            "filename": "ncs-toolchain-x86_64-linux-2aae60c2f9.tar.gz",
+            "sha512": "37c2636aff01d53e4cb0432203c0a70d71f8aea601ab6dbbedc0004808560d06a0d6ee47135b0eedde1440b4bd5e18a2a16a74184c701b81343bd48cbb5e13c0",
+            "timestamp": 1725013993
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.2",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "87afe3f0d0",
+        "metadata": {
+            "version": "87afe3f0d0",
+            "filename": "ncs-toolchain-x86_64-linux-87afe3f0d0.tar.gz",
+            "sha512": "1c3afac081d5df9cd27eae38ef5c97e7cc3783a997550ed03fca4982be4a784ff1a34f2b43cada4539b8aedaffa57761939229b8f66577517fcc854c83ad6dcf",
+            "timestamp": 1726746104
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "9583beca34",
+        "metadata": {
+            "version": "9583beca34",
+            "filename": "ncs-toolchain-x86_64-linux-9583beca34.tar.gz",
+            "sha512": "ec54f937c275f0071a781110510e9ee3fd42ecb92428fda1dbc8791aadc4eac4d7fc2ea5773850a9c92800da4750994535373a8db879912a2d8cf6f114576769",
+            "timestamp": 1727339424
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.7.99-cs2",
+        "metadata": {
+            "version": "9583beca34",
+            "filename": "ncs-toolchain-x86_64-linux-9583beca34.tar.gz",
+            "sha512": "ec54f937c275f0071a781110510e9ee3fd42ecb92428fda1dbc8791aadc4eac4d7fc2ea5773850a9c92800da4750994535373a8db879912a2d8cf6f114576769",
+            "timestamp": 1727339424
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "e6645c1dde",
+        "metadata": {
+            "version": "e6645c1dde",
+            "filename": "ncs-toolchain-x86_64-linux-e6645c1dde.tar.gz",
+            "sha512": "e58b59299e53784088180619281b8e77ba6dfa674a46a3007afb28c63b1792603b67c6c36a3b5b69ca424defd8dbdd017c051f0aae062fff3b5007e6500e0e5d",
+            "timestamp": 1727345295
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "6c44240e03",
+        "metadata": {
+            "version": "6c44240e03",
+            "filename": "ncs-toolchain-x86_64-linux-6c44240e03.tar.gz",
+            "sha512": "fa702db3297fad6f93cba70fdb6b46e212af73d0df042403fcd1b3bdda3b26aec5f714d5215047f3c501b83ae427091eb2a34305dd550ee22ab96cdcb2e7a0f7",
+            "timestamp": 1728294790
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "3dd8985b56",
+        "metadata": {
+            "version": "3dd8985b56",
+            "filename": "ncs-toolchain-x86_64-linux-3dd8985b56.tar.gz",
+            "sha512": "1ff90c40a505aae4bb8e281406ea739a366e5bd2b0e0b50bd2b32d5c8f5cabd7cb84bef859d4944193cd9f17ceb52ac59b4966b8b4524269da88b66a69659025",
+            "timestamp": 1728474311
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "add720b6d9",
+        "metadata": {
+            "version": "add720b6d9",
+            "filename": "ncs-toolchain-x86_64-linux-add720b6d9.tar.gz",
+            "sha512": "08db595b237713487bfe6206abd00933eaa0c3646f58dd6ca507db9fe621b8e965582e0bb84949ddb16d845776cd870053f1a68f80e6b5310635cd5b82b5c97d",
+            "timestamp": 1729669991
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.8.0-rc1",
+        "metadata": {
+            "version": "add720b6d9",
+            "filename": "ncs-toolchain-x86_64-linux-add720b6d9.tar.gz",
+            "sha512": "08db595b237713487bfe6206abd00933eaa0c3646f58dd6ca507db9fe621b8e965582e0bb84949ddb16d845776cd870053f1a68f80e6b5310635cd5b82b5c97d",
+            "timestamp": 1729669991
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.8.0-preview1",
+        "metadata": {
+            "version": "add720b6d9",
+            "filename": "ncs-toolchain-x86_64-linux-add720b6d9.tar.gz",
+            "sha512": "08db595b237713487bfe6206abd00933eaa0c3646f58dd6ca507db9fe621b8e965582e0bb84949ddb16d845776cd870053f1a68f80e6b5310635cd5b82b5c97d",
+            "timestamp": 1729669991
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b44b7a08c9",
+        "metadata": {
+            "version": "b44b7a08c9",
+            "filename": "ncs-toolchain-x86_64-linux-b44b7a08c9.tar.gz",
+            "sha512": "a3af870b8a4bd3047399e744b214122f191551317e4ab60c4db01afa540f72404700bd1c11d9746a34c22a04fb9b9b62d8414e5b0ec629b96425b70176581eb9",
+            "timestamp": 1729761275
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.8.0-rc1.1",
+        "metadata": {
+            "version": "b44b7a08c9",
+            "filename": "ncs-toolchain-x86_64-linux-b44b7a08c9.tar.gz",
+            "sha512": "a3af870b8a4bd3047399e744b214122f191551317e4ab60c4db01afa540f72404700bd1c11d9746a34c22a04fb9b9b62d8414e5b0ec629b96425b70176581eb9",
+            "timestamp": 1729761275
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "6d50eb01ac",
+        "metadata": {
+            "version": "6d50eb01ac",
+            "filename": "ncs-toolchain-x86_64-linux-6d50eb01ac.tar.gz",
+            "sha512": "a1ebe353884e18dce4a90af566cae12dec556b0f6544c2e8233cdf8c78cfb1c58fa59658eaa722d3dff3645b8e66d1942dd2086a30ace991e05c153701613ed8",
+            "timestamp": 1730796775
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b81a7cd864",
+        "metadata": {
+            "version": "b81a7cd864",
+            "filename": "ncs-toolchain-x86_64-linux-b81a7cd864.tar.gz",
+            "sha512": "0b7d40e8273cbf4d27ea7c177db4028720cc838fc24503b4f0eb13c9b208024c89527b82e043e100896d90defdb463b55b94b8fba530bd60f983e4626918bb48",
+            "timestamp": 1730899579
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.8.0-rc2",
+        "metadata": {
+            "version": "b81a7cd864",
+            "filename": "ncs-toolchain-x86_64-linux-b81a7cd864.tar.gz",
+            "sha512": "0b7d40e8273cbf4d27ea7c177db4028720cc838fc24503b4f0eb13c9b208024c89527b82e043e100896d90defdb463b55b94b8fba530bd60f983e4626918bb48",
+            "timestamp": 1730899579
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f51bdba1d9",
+        "metadata": {
+            "version": "f51bdba1d9",
+            "filename": "ncs-toolchain-x86_64-linux-f51bdba1d9.tar.gz",
+            "sha512": "17f4412fdaf9e1b9aa06be33342bbae28d0ebe5f5e2f97dc53c8ea3aa3a71c530b878a833468ff9e5ed748ed6fac46889e2e4352121cfe424a6234eddbb329e1",
+            "timestamp": 1731077054
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.8.0",
+        "metadata": {
+            "version": "b81a7cd864",
+            "filename": "ncs-toolchain-x86_64-linux-b81a7cd864.tar.gz",
+            "sha512": "0b7d40e8273cbf4d27ea7c177db4028720cc838fc24503b4f0eb13c9b208024c89527b82e043e100896d90defdb463b55b94b8fba530bd60f983e4626918bb48",
+            "timestamp": 1730899579
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "8611848abf",
+        "metadata": {
+            "version": "8611848abf",
+            "filename": "ncs-toolchain-x86_64-linux-8611848abf.tar.gz",
+            "sha512": "ffe2aced784098a11a0cadad3ed14b0c205ab062dd3a038ff4bb686fbfdd8da61a33d22019fd00e32fa8290b09139417065a142265bb33abeda0bd2cf2851e4f",
+            "timestamp": 1731681968
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b77d8c1312",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-rc1",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-rc2",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-nRF54H20-rc1",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "11349092be",
+        "metadata": {
+            "version": "11349092be",
+            "filename": "ncs-toolchain-x86_64-linux-11349092be.tar.gz",
+            "sha512": "b90e1100aff6962a163b215fa314ba41160955ceffcf8be1f1c79656201fdbf943f7d3bc7e303611cf50efa4b85537f8b0173dd176df45e2a8b24d8cab7c7683",
+            "timestamp": 1736758317
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "342151af73",
+        "metadata": {
+            "version": "342151af73",
+            "filename": "ncs-toolchain-x86_64-linux-342151af73.tar.gz",
+            "sha512": "071a0cdc90c1acdb12b8b20bc5188cfa252031f0eedce8c752d9bd2ad176c776c8d33c13050264c317a6dd50096a3fa9b775115447d52aa8085e8497c755985f",
+            "timestamp": 1736843748
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.3",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-nRF54H20-1-rc2",
+        "metadata": {
+            "version": "11349092be",
+            "filename": "ncs-toolchain-x86_64-linux-11349092be.tar.gz",
+            "sha512": "b90e1100aff6962a163b215fa314ba41160955ceffcf8be1f1c79656201fdbf943f7d3bc7e303611cf50efa4b85537f8b0173dd176df45e2a8b24d8cab7c7683",
+            "timestamp": 1736758317
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "0f22b642ed",
+        "metadata": {
+            "version": "0f22b642ed",
+            "filename": "ncs-toolchain-x86_64-linux-0f22b642ed.tar.gz",
+            "sha512": "9184560ed657b34a40557d57f6c1ed596fa1a5009cff0f02c9e2576beacdce2373cec7e148f57ba15ffe9d4e23e577eda827c8ef6d2907d5698644aa14976e9d",
+            "timestamp": 1739540862
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "4cff34261a",
+        "metadata": {
+            "version": "4cff34261a",
+            "filename": "ncs-toolchain-x86_64-linux-4cff34261a.tar.gz",
+            "sha512": "71f3940f3b1c76955f212f225df24eca7334d13def04335d297178cb2427cdbf0559c1e9a1bbcb757b490d3b7ff788645089cb46afcb8f7c4cf915c0f8b35276",
+            "timestamp": 1739877572
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "aedb4c0245",
+        "metadata": {
+            "version": "aedb4c0245",
+            "filename": "ncs-toolchain-x86_64-linux-aedb4c0245.tar.gz",
+            "sha512": "1b27a21a0e36ed5111ef1923683db8be8d763ad8f29d318dee17e17ee52935ba6293adda2f0bc3f0829d91f2b8015c0168a8dbbc8d959330d9225a9cfd1ae1b9",
+            "timestamp": 1740132765
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.0-preview1",
+        "metadata": {
+            "version": "aedb4c0245",
+            "filename": "ncs-toolchain-x86_64-linux-aedb4c0245.tar.gz",
+            "sha512": "1b27a21a0e36ed5111ef1923683db8be8d763ad8f29d318dee17e17ee52935ba6293adda2f0bc3f0829d91f2b8015c0168a8dbbc8d959330d9225a9cfd1ae1b9",
+            "timestamp": 1740132765
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-nRF54H20-1-rc3",
+        "metadata": {
+            "version": "11349092be",
+            "filename": "ncs-toolchain-x86_64-linux-11349092be.tar.gz",
+            "sha512": "b90e1100aff6962a163b215fa314ba41160955ceffcf8be1f1c79656201fdbf943f7d3bc7e303611cf50efa4b85537f8b0173dd176df45e2a8b24d8cab7c7683",
+            "timestamp": 1736758317
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "acee3b0b2b",
+        "metadata": {
+            "version": "acee3b0b2b",
+            "filename": "ncs-toolchain-x86_64-linux-acee3b0b2b.tar.gz",
+            "sha512": "ec8de582e6d6a461d89599ebdcf94a0101cbbd9873a8af7f5f47083a03c716f33d5861d894121ce73fde5b8f385f59fa05e1a84aadf9edce11e691941d01f46d",
+            "timestamp": 1741011007
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.1",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.4",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "4ffa2202d5",
+        "metadata": {
+            "version": "4ffa2202d5",
+            "filename": "ncs-toolchain-x86_64-linux-4ffa2202d5.tar.gz",
+            "sha512": "29e13d92b69f631dbf1c666adbc77a2d61a1c2371c4dc9bc449f9ca2fec5b4c7f8b4cd0121eef8096604b02f7d2c593e449d5e08c9178c3f870b370f9c4eb918",
+            "timestamp": 1741876612
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.0-nRF54H20-1",
+        "metadata": {
+            "version": "11349092be",
+            "filename": "ncs-toolchain-x86_64-linux-11349092be.tar.gz",
+            "sha512": "b90e1100aff6962a163b215fa314ba41160955ceffcf8be1f1c79656201fdbf943f7d3bc7e303611cf50efa4b85537f8b0173dd176df45e2a8b24d8cab7c7683",
+            "timestamp": 1736758317
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.0-preview2",
+        "metadata": {
+            "version": "4ffa2202d5",
+            "filename": "ncs-toolchain-x86_64-linux-4ffa2202d5.tar.gz",
+            "sha512": "29e13d92b69f631dbf1c666adbc77a2d61a1c2371c4dc9bc449f9ca2fec5b4c7f8b4cd0121eef8096604b02f7d2c593e449d5e08c9178c3f870b370f9c4eb918",
+            "timestamp": 1741876612
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7dbe0e2658",
+        "metadata": {
+            "version": "7dbe0e2658",
+            "filename": "ncs-toolchain-x86_64-linux-7dbe0e2658.tar.gz",
+            "sha512": "3aa093df9cca530108ca964fb103c00f77c2b48a98309e1bf4c76552711616371c3e7c5f2e345214047cdf1191af4715d9b8a870e4258cab21a0c5e320dcb5c2",
+            "timestamp": 1742898087
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7cbc0036f4",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.0-rc1",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.0-rc2",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "ad3a239952",
+        "metadata": {
+            "version": "ad3a239952",
+            "filename": "ncs-toolchain-x86_64-linux-ad3a239952.tar.gz",
+            "sha512": "33b2b288a2c0ac6c0a4b3db9db253e190c7d1ec432448413cef253e1a471e5b92097c12a629530c66dbae9f867723acfebb1e7e4feb1f0812e86a6ca80f1bc1b",
+            "timestamp": 1745316630
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.0",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "1d2c5d0ab5",
+        "metadata": {
+            "version": "1d2c5d0ab5",
+            "filename": "ncs-toolchain-x86_64-linux-1d2c5d0ab5.tar.gz",
+            "sha512": "e6eb6c5d2a690af1ef84874bc3dad8ab8895039bcd742f65b0f0292190e54e7c35c73c464b7b4785cfd7c8d89f168e26c32c33edcbb28bc3b9c9977fc4652d49",
+            "timestamp": 1745839850
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.1",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-preview1",
+        "metadata": {
+            "version": "1d2c5d0ab5",
+            "filename": "ncs-toolchain-x86_64-linux-1d2c5d0ab5.tar.gz",
+            "sha512": "e6eb6c5d2a690af1ef84874bc3dad8ab8895039bcd742f65b0f0292190e54e7c35c73c464b7b4785cfd7c8d89f168e26c32c33edcbb28bc3b9c9977fc4652d49",
+            "timestamp": 1745839850
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.0.2",
+        "metadata": {
+            "version": "7cbc0036f4",
+            "filename": "ncs-toolchain-x86_64-linux-7cbc0036f4.tar.gz",
+            "sha512": "99602143d1b7f0af08d37270bc25166b5550cd3a4d5ce9cf520f338b6e9ea809fc600fc34dc3b6c6cdce00ba62e5f901372125616886da0cf2653cd95310ba1e",
+            "timestamp": 1743607845
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "4aa3467a6d",
+        "metadata": {
+            "version": "4aa3467a6d",
+            "filename": "ncs-toolchain-x86_64-linux-4aa3467a6d.tar.gz",
+            "sha512": "7eb2b768b7f51d83e1f9c569b1728bb5c5af7495b9f600003f7d5c0394f2e939a17c9036c9752838d705f84e617bf929f84c81a101878b9119a6e807a85dd7ce",
+            "timestamp": 1748267793
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.2",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "99a56e345f",
+        "metadata": {
+            "version": "99a56e345f",
+            "filename": "ncs-toolchain-x86_64-linux-99a56e345f.tar.gz",
+            "sha512": "d584ada6c24c72837ad77714dbeef4e1e708f4c4ba43e484af4aa5bf74af391afaa37e97be03e6758d6cbe468ca3cf85eb88e50996e1e1efb970359e6ce4e3ef",
+            "timestamp": 1749050032
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "1adf8c317f",
+        "metadata": {
+            "version": "1adf8c317f",
+            "filename": "ncs-toolchain-x86_64-linux-1adf8c317f.tar.gz",
+            "sha512": "54c77f8a06df38195dc7db7aafebff06d60b257a365159ae080102cdffb60d2e919cca865bb3818230f6f8c7f7ec2881ebf12bfa366739256a60bbe29e3a13f7",
+            "timestamp": 1749739056
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-preview2",
+        "metadata": {
+            "version": "4aa3467a6d",
+            "filename": "ncs-toolchain-x86_64-linux-4aa3467a6d.tar.gz",
+            "sha512": "7eb2b768b7f51d83e1f9c569b1728bb5c5af7495b9f600003f7d5c0394f2e939a17c9036c9752838d705f84e617bf929f84c81a101878b9119a6e807a85dd7ce",
+            "timestamp": 1748267793
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "3ae5dc3c63",
+        "metadata": {
+            "version": "3ae5dc3c63",
+            "filename": "ncs-toolchain-x86_64-linux-3ae5dc3c63.tar.gz",
+            "sha512": "ce19f5106b0db7bbaeb0f72c869b987f2568a64103256a602ce0466672b76402cdc01e43e8e01aa9de5d1164b924672d325ad8b7bea398f90932f561e3161921",
+            "timestamp": 1750416415
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "187d9757da",
+        "metadata": {
+            "version": "187d9757da",
+            "filename": "ncs-toolchain-x86_64-linux-187d9757da.tar.gz",
+            "sha512": "05e305725cec0d838012c1aafecf984893378ce2ae5f96e0e76e440779c9c5c4fc07d587538c9e8df570b9e30856607dad5ae6ffc576e0e67e002ea5d9c0047a",
+            "timestamp": 1750687688
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-preview3",
+        "metadata": {
+            "version": "3ae5dc3c63",
+            "filename": "ncs-toolchain-x86_64-linux-3ae5dc3c63.tar.gz",
+            "sha512": "ce19f5106b0db7bbaeb0f72c869b987f2568a64103256a602ce0466672b76402cdc01e43e8e01aa9de5d1164b924672d325ad8b7bea398f90932f561e3161921",
+            "timestamp": 1750416415
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-preview4",
+        "metadata": {
+            "version": "3ae5dc3c63",
+            "filename": "ncs-toolchain-x86_64-linux-3ae5dc3c63.tar.gz",
+            "sha512": "ce19f5106b0db7bbaeb0f72c869b987f2568a64103256a602ce0466672b76402cdc01e43e8e01aa9de5d1164b924672d325ad8b7bea398f90932f561e3161921",
+            "timestamp": 1750416415
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "684b32e022",
+        "metadata": {
+            "version": "684b32e022",
+            "filename": "ncs-toolchain-x86_64-linux-684b32e022.tar.gz",
+            "sha512": "6dbf5c5a5ac6a8ac7c06b6664bbdf3aaadad7a855a4c6f5d770de148f848bb1d327f8bd8601081947f73595328b4fdd37e04ad26de72d54e59a94105e3991e12",
+            "timestamp": 1752058733
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "bd39d1676f",
+        "metadata": {
+            "version": "bd39d1676f",
+            "filename": "ncs-toolchain-x86_64-linux-bd39d1676f.tar.gz",
+            "sha512": "db94813487155fb2ad941c5b03ce256107ba5d45f2f99e9c8e0195239e5a1021151688573d983e73bf1467fb35d014c95b8a718411bace9c1c4f23e2da3e5385",
+            "timestamp": 1753347246
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "8ea1732c3a",
+        "metadata": {
+            "version": "8ea1732c3a",
+            "filename": "ncs-toolchain-x86_64-linux-8ea1732c3a.tar.gz",
+            "sha512": "cc8ee9fe803bb5699569e4a526b2f36cf070ab0360731d95c9835f2a86165cc6b7e8d61532f3ac0e460c530d34fa5bee2cb3ae8530db1539c8e15401d82576f3",
+            "timestamp": 1753696449
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "11ad62c2a5",
+        "metadata": {
+            "version": "11ad62c2a5",
+            "filename": "ncs-toolchain-x86_64-linux-11ad62c2a5.tar.gz",
+            "sha512": "c829727b3cd901c8f0431fd1897bd6e4ac56f1c63f5e6ccaa76748b300664fb0606d13c3ab526d575bd7abede49f84a98390b72264270cf6a07c728c72c6067e",
+            "timestamp": 1754054979
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "99fc761b6b",
+        "metadata": {
+            "version": "99fc761b6b",
+            "filename": "ncs-toolchain-x86_64-linux-99fc761b6b.tar.gz",
+            "sha512": "a25036bc948efed433ae84dde39d4299646749b884114eca1724ce27f8c1c50a3cb43959aa346241954dea72a7007ac3a9570db0047c1bb3892623302e35186a",
+            "timestamp": 1754063048
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-rc1",
+        "metadata": {
+            "version": "11ad62c2a5",
+            "filename": "ncs-toolchain-x86_64-linux-11ad62c2a5.tar.gz",
+            "sha512": "c829727b3cd901c8f0431fd1897bd6e4ac56f1c63f5e6ccaa76748b300664fb0606d13c3ab526d575bd7abede49f84a98390b72264270cf6a07c728c72c6067e",
+            "timestamp": 1754054979
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "c5be9c56c7",
+        "metadata": {
+            "version": "c5be9c56c7",
+            "filename": "ncs-toolchain-x86_64-linux-c5be9c56c7.tar.gz",
+            "sha512": "cb30c7b8327c4d6722c332a471e6ad7c924fc0b7d794d9d91fe92b7c57c26a7614a5f605aac5e1d68231bbc0222db320f267b8dd202599043e122126272e386f",
+            "timestamp": 1754402778
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0-rc2",
+        "metadata": {
+            "version": "c5be9c56c7",
+            "filename": "ncs-toolchain-x86_64-linux-c5be9c56c7.tar.gz",
+            "sha512": "cb30c7b8327c4d6722c332a471e6ad7c924fc0b7d794d9d91fe92b7c57c26a7614a5f605aac5e1d68231bbc0222db320f267b8dd202599043e122126272e386f",
+            "timestamp": 1754402778
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.0",
+        "metadata": {
+            "version": "c5be9c56c7",
+            "filename": "ncs-toolchain-x86_64-linux-c5be9c56c7.tar.gz",
+            "sha512": "cb30c7b8327c4d6722c332a471e6ad7c924fc0b7d794d9d91fe92b7c57c26a7614a5f605aac5e1d68231bbc0222db320f267b8dd202599043e122126272e386f",
+            "timestamp": 1754402778
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "53a57c4d75",
+        "metadata": {
+            "version": "53a57c4d75",
+            "filename": "ncs-toolchain-x86_64-linux-53a57c4d75.tar.gz",
+            "sha512": "a1a6c1d0f8e8b768512ca1d6fff057e564e063ca1c9002a82b7a5e25459bb0966f29224372ba529712886fee899323a4c8f8e3bc497170524f9ae405d316cd2a",
+            "timestamp": 1755865601
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "c0e69fc6ed",
+        "metadata": {
+            "version": "c0e69fc6ed",
+            "filename": "ncs-toolchain-x86_64-linux-c0e69fc6ed.tar.gz",
+            "sha512": "f2b37bb8491ac6176e20f02dee29738a769879aa283fbcc516cac6e4f228a22c66799da76c112b64d8f7acb4608ee4253603631e40a2d15da23868deb3032f57",
+            "timestamp": 1756726002
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "e7381b7668",
+        "metadata": {
+            "version": "e7381b7668",
+            "filename": "ncs-toolchain-x86_64-linux-e7381b7668.tar.gz",
+            "sha512": "1569414d848ee2ed32e89dbac4579e3ada792f5706c7ea6b7a02972f37a5d5bb6d567f8c6fa31e1cf75c6c814cd2a7ab9e10ae1855d1587d1d91ca4c21ce6a57",
+            "timestamp": 1756897281
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "cfa5079252",
+        "metadata": {
+            "version": "cfa5079252",
+            "filename": "ncs-toolchain-x86_64-linux-cfa5079252.tar.gz",
+            "sha512": "04d39d5c792fb5fb1dcb24b92df950ed9c30077aba869293ad7d9efbc7a90af037bbc373b9765271b80df456f61e8f1bfcd8f63c3d45b966435f8e8093e51970",
+            "timestamp": 1757310084
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "60043ac7b4",
+        "metadata": {
+            "version": "60043ac7b4",
+            "filename": "ncs-toolchain-x86_64-linux-60043ac7b4.tar.gz",
+            "sha512": "83110f3e9a1de1b619eb66a30910cb7c0b58a74dd9f32164e4ac8e8930a86cc7dbb1b629f5bfe75d94b3b2bd8b4f5c6aec86eb02bc6b5273ef935728692e704b",
+            "timestamp": 1757324570
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b2ecd2435d",
+        "metadata": {
+            "version": "b2ecd2435d",
+            "filename": "ncs-toolchain-x86_64-linux-b2ecd2435d.tar.gz",
+            "sha512": "c86b1bfa272f9a7311ced85ad36315747038f2c64e45f8f3bf2c30fdde70a78a0c6d790bb1afa9d14c2b2526ce5f713a6a9b5a7abcba03d41930b1146a1970c1",
+            "timestamp": 1757338374
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "a703fb5215",
+        "metadata": {
+            "version": "a703fb5215",
+            "filename": "ncs-toolchain-x86_64-linux-a703fb5215.tar.gz",
+            "sha512": "6f78ec8054cda570f3b7a34bb03786bcb10a6606c5800e0ee147402d12466d2f09ff0bb648180aeefed686e65db8033cdcd0094ec58cc5f2a6f60bb4d522a952",
+            "timestamp": 1757483623
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "bd7e80ab8a",
+        "metadata": {
+            "version": "bd7e80ab8a",
+            "filename": "ncs-toolchain-x86_64-linux-bd7e80ab8a.tar.gz",
+            "sha512": "38f5451a72b7d9303e240e2d566598f53cdca9c0a437e11a3ec57e3535c166b1216cecfa2e7f4a91f941ed5c1b10dffd1ca6a21f0e2c0a652db3bfdec8087f09",
+            "timestamp": 1757505049
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "2b2cd9579a",
+        "metadata": {
+            "version": "2b2cd9579a",
+            "filename": "ncs-toolchain-x86_64-linux-2b2cd9579a.tar.gz",
+            "sha512": "69a05df40961f0e2fe888cf3d3331498e3b4da7b95568a25e959586dd1bcf43eb3fbe0ab0eb4955ab81843f10514102621d77c2f3713b3810c35c12eacbe1dd3",
+            "timestamp": 1757511085
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.1.1",
+        "metadata": {
+            "version": "b2ecd2435d",
+            "filename": "ncs-toolchain-x86_64-linux-b2ecd2435d.tar.gz",
+            "sha512": "c86b1bfa272f9a7311ced85ad36315747038f2c64e45f8f3bf2c30fdde70a78a0c6d790bb1afa9d14c2b2526ce5f713a6a9b5a7abcba03d41930b1146a1970c1",
+            "timestamp": 1757338374
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "a7529a11f4",
+        "metadata": {
+            "version": "a7529a11f4",
+            "filename": "ncs-toolchain-x86_64-linux-a7529a11f4.tar.gz",
+            "sha512": "b056ec4a6e3b0ebaf69fa8bf0f52026055cbf443b71adb81511676c7ab093613327ce3e6b10d7b28aa112091f423398948beeded26c917767d044e4588b6b820",
+            "timestamp": 1758121722
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0-preview1",
+        "metadata": {
+            "version": "2b2cd9579a",
+            "filename": "ncs-toolchain-x86_64-linux-2b2cd9579a.tar.gz",
+            "sha512": "69a05df40961f0e2fe888cf3d3331498e3b4da7b95568a25e959586dd1bcf43eb3fbe0ab0eb4955ab81843f10514102621d77c2f3713b3810c35c12eacbe1dd3",
+            "timestamp": 1757511085
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f66cf421f3",
+        "metadata": {
+            "version": "f66cf421f3",
+            "filename": "ncs-toolchain-x86_64-linux-f66cf421f3.tar.gz",
+            "sha512": "4db15709924fc0792b4f6865234e9fb90ec760b852d2ca37f3c0a3ec8b518202cce66bd68b5ea99c90c717b1808c530146f9799e11501f119848eb2f84af31c7",
+            "timestamp": 1759823279
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "35b715ff30",
+        "metadata": {
+            "version": "35b715ff30",
+            "filename": "ncs-toolchain-x86_64-linux-35b715ff30.tar.gz",
+            "sha512": "3440fd2edbfc24cbad65b01528c81da428f0d1c4ef006668d4cc39feedce017b87baa5044742265a763b1fac18879281bada326c18b5a5e147e25b7d1b146fcd",
+            "timestamp": 1760438911
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "46667c6630",
+        "metadata": {
+            "version": "46667c6630",
+            "filename": "ncs-toolchain-x86_64-linux-46667c6630.tar.gz",
+            "sha512": "d78c0da34247ecc65d08bf5f075514499526fa2dbe802427bd0cdcb43635e7e538384786aa6e1b2d4a45c9127c9c77604372dfcec1dabe6157aa4e83d6a4fa13",
+            "timestamp": 1760546493
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0-preview2",
+        "metadata": {
+            "version": "f66cf421f3",
+            "filename": "ncs-toolchain-x86_64-linux-f66cf421f3.tar.gz",
+            "sha512": "4db15709924fc0792b4f6865234e9fb90ec760b852d2ca37f3c0a3ec8b518202cce66bd68b5ea99c90c717b1808c530146f9799e11501f119848eb2f84af31c7",
+            "timestamp": 1759823279
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "cfa6b06338",
+        "metadata": {
+            "version": "cfa6b06338",
+            "filename": "ncs-toolchain-x86_64-linux-cfa6b06338.tar.gz",
+            "sha512": "443de8dafd0666f197d2007dcd9b40b8e23ee9f5f06f66f98d7e569c293b9c3536e8565579f3142f2b5dec261180bb69a0981828b56370bab2e84afcb8bdfc46",
+            "timestamp": 1760695420
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "1aaa73c928",
+        "metadata": {
+            "version": "1aaa73c928",
+            "filename": "ncs-toolchain-x86_64-linux-1aaa73c928.tar.gz",
+            "sha512": "e3e02cd3ace615c1d6cb9c28b400883f71e33979e57004d261f6218e965deeb464f98b2643e57976bc43104e349ce9ac14e853e9dba3c9bbf5f5c5b993529f97",
+            "timestamp": 1762270372
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "df3cc9d822",
+        "metadata": {
+            "version": "df3cc9d822",
+            "filename": "ncs-toolchain-x86_64-linux-df3cc9d822.tar.gz",
+            "sha512": "f21432ff12131992e206e9cff39cbc93a120ccba0da9acbffe5f3ced104ab5239609adfa6314a8d92622db1ab3074d29ccfa771e4d381c60c28616daecb9a6ac",
+            "timestamp": 1762330983
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0-preview3",
+        "metadata": {
+            "version": "cfa6b06338",
+            "filename": "ncs-toolchain-x86_64-linux-cfa6b06338.tar.gz",
+            "sha512": "443de8dafd0666f197d2007dcd9b40b8e23ee9f5f06f66f98d7e569c293b9c3536e8565579f3142f2b5dec261180bb69a0981828b56370bab2e84afcb8bdfc46",
+            "timestamp": 1760695420
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "4e36fbc961",
+        "metadata": {
+            "version": "4e36fbc961",
+            "filename": "ncs-toolchain-x86_64-linux-4e36fbc961.tar.gz",
+            "sha512": "d0498ef66e105c45ec1c410163ac345a476386079aa5a63602b0160067b75e142ab00d476df1bfb495a3e6730a1625c3e9f90c3917817b9d43c4741b21eece89",
+            "timestamp": 1763719860
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "964ddb2c70",
+        "metadata": {
+            "version": "964ddb2c70",
+            "filename": "ncs-toolchain-x86_64-linux-964ddb2c70.tar.gz",
+            "sha512": "3e4b8a0781aa5b2e28ab4cc54adff77a77304157397e630b0a4ea5df3ec7a4a0c767070a18c603c6e85caa85c549cc9c5aeeeb0955944221df7a3436302f59b8",
+            "timestamp": 1764239105
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "28b0ad0cf9",
+        "metadata": {
+            "version": "28b0ad0cf9",
+            "filename": "ncs-toolchain-x86_64-linux-28b0ad0cf9.tar.gz",
+            "sha512": "75aa6eb02fb0f37ef24a325a5f7633a0396e9344fffe165d7d8fe7f4eb419a1f5c669c9b3338379ca2d3c1b796454f5a62d08959628e94aa9979b6b43dde1f95",
+            "timestamp": 1764248824
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "43683a87ea",
+        "metadata": {
+            "version": "43683a87ea",
+            "filename": "ncs-toolchain-x86_64-linux-43683a87ea.tar.gz",
+            "sha512": "86ebfe04255584e94147b0d1311a6ddedb555cacdd0ff784cfa01c0174b13cbb36e125cb16cc297fffdf3ef6be6d758dad1fc1a0335aa9b3565149086278f0c8",
+            "timestamp": 1764326341
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0-rc1",
+        "metadata": {
+            "version": "43683a87ea",
+            "filename": "ncs-toolchain-x86_64-linux-43683a87ea.tar.gz",
+            "sha512": "86ebfe04255584e94147b0d1311a6ddedb555cacdd0ff784cfa01c0174b13cbb36e125cb16cc297fffdf3ef6be6d758dad1fc1a0335aa9b3565149086278f0c8",
+            "timestamp": 1764326341
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f2cdadad16",
+        "metadata": {
+            "version": "f2cdadad16",
+            "filename": "ncs-toolchain-x86_64-linux-f2cdadad16.tar.gz",
+            "sha512": "bacdf5bf844151cdb255de602ad2e2b009622d130e19dcd00ec0f51282594188eca6da773688f667f0e10d438c71d40502ea95ffa51e8069868aa50aa5f0344b",
+            "timestamp": 1764671082
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0-rc2",
+        "metadata": {
+            "version": "43683a87ea",
+            "filename": "ncs-toolchain-x86_64-linux-43683a87ea.tar.gz",
+            "sha512": "86ebfe04255584e94147b0d1311a6ddedb555cacdd0ff784cfa01c0174b13cbb36e125cb16cc297fffdf3ef6be6d758dad1fc1a0335aa9b3565149086278f0c8",
+            "timestamp": 1764326341
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "c3b3fc2dba",
+        "metadata": {
+            "version": "c3b3fc2dba",
+            "filename": "ncs-toolchain-x86_64-linux-c3b3fc2dba.tar.gz",
+            "sha512": "0204457138854b2616fe336daed506f15dbec442502c6bbca350befa595510145a87c36efd46c8bd5fb9e31158bc7adfd0ded5650a62d3ced3d84b319fb30777",
+            "timestamp": 1765196291
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "e553cf0d15",
+        "metadata": {
+            "version": "e553cf0d15",
+            "filename": "ncs-toolchain-x86_64-linux-e553cf0d15.tar.gz",
+            "sha512": "c7400b09d6008045959a6d19db82bd3638bf0bc4339d3c690cd3115bb193b595f0005c90eea1ad9e11c536f1dcfd44771a99c58106f4ec0911541b0d5b08e530",
+            "timestamp": 1765280252
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.0",
+        "metadata": {
+            "version": "43683a87ea",
+            "filename": "ncs-toolchain-x86_64-linux-43683a87ea.tar.gz",
+            "sha512": "86ebfe04255584e94147b0d1311a6ddedb555cacdd0ff784cfa01c0174b13cbb36e125cb16cc297fffdf3ef6be6d758dad1fc1a0335aa9b3565149086278f0c8",
+            "timestamp": 1764326341
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f911d4f4e7",
+        "metadata": {
+            "version": "f911d4f4e7",
+            "filename": "ncs-toolchain-x86_64-linux-f911d4f4e7.tar.gz",
+            "sha512": "c0b3225c27460fb290de330bd866a1afee64c2869d7e4efce268625ab498c84126f6c537a9a773fc902f2155840729f2e51319fdb103e51cac27161edd722c91",
+            "timestamp": 1765894173
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.1",
+        "metadata": {
+            "version": "43683a87ea",
+            "filename": "ncs-toolchain-x86_64-linux-43683a87ea.tar.gz",
+            "sha512": "86ebfe04255584e94147b0d1311a6ddedb555cacdd0ff784cfa01c0174b13cbb36e125cb16cc297fffdf3ef6be6d758dad1fc1a0335aa9b3565149086278f0c8",
+            "timestamp": 1764326341
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "892da56bf0",
+        "metadata": {
+            "version": "892da56bf0",
+            "filename": "ncs-toolchain-x86_64-linux-892da56bf0.tar.gz",
+            "sha512": "5e70124fa0a81a58b891a65a8962637cab370fdbd57248c5e204f224cb5cef94b8e65c65cedc7728af3b1d46cee9b99a57f9673173496f1c64fc99ac4446115f",
+            "timestamp": 1766071415
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "ee53aaa3a8",
+        "metadata": {
+            "version": "ee53aaa3a8",
+            "filename": "ncs-toolchain-x86_64-linux-ee53aaa3a8.tar.gz",
+            "sha512": "25b1b8720d312e69d5a7bce52a44647163faf13d77541949bfdb0ac3ac4c26421991fe014a875fc058148599d109ea972061723b12bc2796a3c09dcad5f63f9b",
+            "timestamp": 1766146297
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "8f41fc66dd",
+        "metadata": {
+            "version": "8f41fc66dd",
+            "filename": "ncs-toolchain-x86_64-linux-8f41fc66dd.tar.gz",
+            "sha512": "fde735767dd5a0c0b07a816fa48e138ef96c5908d9ae41e86cc7a9f6999ba8e19dc27bf4caca538a22a58757e5418e6f3a5069def4e23cc25cfdec863e1d07cc",
+            "timestamp": 1766410171
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "400c6cb4ec",
+        "metadata": {
+            "version": "400c6cb4ec",
+            "filename": "ncs-toolchain-x86_64-linux-400c6cb4ec.tar.gz",
+            "sha512": "53d2168a25047580abb11aac9e7729952e94cc345ef4600b62cd85d980453b0092dfc9572568898a0eca837bed3738831cd4568566bedb1d35af388a3bb27443",
+            "timestamp": 1767959463
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "927563c840",
+        "metadata": {
+            "version": "927563c840",
+            "filename": "ncs-toolchain-x86_64-linux-927563c840.tar.gz",
+            "sha512": "5674aa0dd7ce790b5375d0b0c57e34e0b9aa63a8e7a185e18db58e3f54939c781720f878809362a60fe1e5694e2a8b5737661b210d77232a976faa024c12c48d",
+            "timestamp": 1767968561
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "42e1724fc9",
+        "metadata": {
+            "version": "42e1724fc9",
+            "filename": "ncs-toolchain-x86_64-linux-42e1724fc9.tar.gz",
+            "sha512": "3e96d9c8e3bcfc5a4498155105643801bf8feb65ab306a1015cd1ef8cf358dd76c5a2f0e29b4def63c490dcf9e7921b84ccfc3e659af5a3124d44316828814d6",
+            "timestamp": 1768400483
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b3fe2c67cb",
+        "metadata": {
+            "version": "b3fe2c67cb",
+            "filename": "ncs-toolchain-x86_64-linux-b3fe2c67cb.tar.gz",
+            "sha512": "cd3adf0d1ff93b7d0963a09dec83a63567b27a8764311a963525f51c601c935fb7729a3f4a495bbe1379331fa2c581fd748b1a67312ee52269b83f7d457a4436",
+            "timestamp": 1768477818
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "ac91f2819c",
+        "metadata": {
+            "version": "ac91f2819c",
+            "filename": "ncs-toolchain-x86_64-linux-ac91f2819c.tar.gz",
+            "sha512": "77509572e25602f52f53373d1688cf324894eee242305def5b2a1c270adf2040d1cdb2f9ec1865055b7028e1c6561ee3c79f5bf0b6b60d3413cb7af5629b8555",
+            "timestamp": 1769169373
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f6e183313e",
+        "metadata": {
+            "version": "f6e183313e",
+            "filename": "ncs-toolchain-x86_64-linux-f6e183313e.tar.gz",
+            "sha512": "a8a6bd53d19fd6ff80695ad38929b1700a4baa1dd6554b2ec06418ee3074c8a8d676e2f984f772c019c327b9bf5366046303aaf22522427d9b076183b7f541e0",
+            "timestamp": 1769173647
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "3897a41e6f",
+        "metadata": {
+            "version": "3897a41e6f",
+            "filename": "ncs-toolchain-x86_64-linux-3897a41e6f.tar.gz",
+            "sha512": "1a262d8cba223a81ab191df39d749708bf367ffb6178bdb8d889c5aa4fe95d00d7c0e5dc045ce459beb3a7fa04515f3e67665c545c046a7f990599939bc449aa",
+            "timestamp": 1769435034
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "ac0c2ae27d",
+        "metadata": {
+            "version": "ac0c2ae27d",
+            "filename": "ncs-toolchain-x86_64-linux-ac0c2ae27d.tar.gz",
+            "sha512": "f71b14ac123a21f101f24bd332a94660297741a45c8bc645c96897ad2ab7e932c27e2a61e823722e5f4a7ada6bfad4f958a76cb4a40aa346e32df3672c1d82f9",
+            "timestamp": 1769510025
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7b6763ced2",
+        "metadata": {
+            "version": "7b6763ced2",
+            "filename": "ncs-toolchain-x86_64-linux-7b6763ced2.tar.gz",
+            "sha512": "7d42e61b86f7b37122d73bd416ea58c93d01a1fcd6f9f5f01292cfc352cbaa23f1d27a26ba55c560599108d73fb10c1541518220fc8059fd446aa4cb5f0dcd8e",
+            "timestamp": 1769605555
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "fb5ca70e5e",
+        "metadata": {
+            "version": "fb5ca70e5e",
+            "filename": "ncs-toolchain-x86_64-linux-fb5ca70e5e.tar.gz",
+            "sha512": "5b0aedfaa301788986208b0efe3287ebb381c1e91c3c8e568d5eb3182c5ed661c6a3bc39394ebfa47b08922dfaf4c349a8c5cca3a9a7a79a414458ccc82628e2",
+            "timestamp": 1769686837
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0-preview1",
+        "metadata": {
+            "version": "ac0c2ae27d",
+            "filename": "ncs-toolchain-x86_64-linux-ac0c2ae27d.tar.gz",
+            "sha512": "f71b14ac123a21f101f24bd332a94660297741a45c8bc645c96897ad2ab7e932c27e2a61e823722e5f4a7ada6bfad4f958a76cb4a40aa346e32df3672c1d82f9",
+            "timestamp": 1769510025
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.2",
+        "metadata": {
+            "version": "927563c840",
+            "filename": "ncs-toolchain-x86_64-linux-927563c840.tar.gz",
+            "sha512": "5674aa0dd7ce790b5375d0b0c57e34e0b9aa63a8e7a185e18db58e3f54939c781720f878809362a60fe1e5694e2a8b5737661b210d77232a976faa024c12c48d",
+            "timestamp": 1767968561
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "301b197f9f",
+        "metadata": {
+            "version": "301b197f9f",
+            "filename": "ncs-toolchain-x86_64-linux-301b197f9f.tar.gz",
+            "sha512": "3c1da3e107723fdd8a5c236e3a6b2d3d1f2f009ddcf950fb67a2db78276cc0f80afc9f37b6b812f4c582da9e3a7bd190364b7d352de0f8f6d7afa84682bf9c4b",
+            "timestamp": 1770813906
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "aaa5534207",
+        "metadata": {
+            "version": "aaa5534207",
+            "filename": "ncs-toolchain-x86_64-linux-aaa5534207.tar.gz",
+            "sha512": "8f857e856328fa87e4a4efd12d3747d079341425949fe22bbd0b0d745d0178b4c25e5d7b5b9f8e39e5d654d5defa198b247b13e866b75f7d8c699b56487bf806",
+            "timestamp": 1770905860
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f9c66dfcaf",
+        "metadata": {
+            "version": "f9c66dfcaf",
+            "filename": "ncs-toolchain-x86_64-linux-f9c66dfcaf.tar.gz",
+            "sha512": "d414ddbe71a1fe9128870b580610595f714063db821fe0d7eb217088501ef48e9d03ef6712d03da862655d61f926d81fbade291ea374511ef60e3d09af1489f1",
+            "timestamp": 1770973395
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "39f29abc1f",
+        "metadata": {
+            "version": "39f29abc1f",
+            "filename": "ncs-toolchain-x86_64-linux-39f29abc1f.tar.gz",
+            "sha512": "ce1bc9d015bbc3d436f148b032dc022782cc0d8eaa012849ebd67f675c23f5e9168441da1219611fe0ab8884317fc4733a0267fc5b86a6b3a793f61d3832ff5c",
+            "timestamp": 1771528004
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "d1d7630613",
+        "metadata": {
+            "version": "d1d7630613",
+            "filename": "ncs-toolchain-x86_64-linux-d1d7630613.tar.gz",
+            "sha512": "ae4874a1c1502d24bf74d739614426217567005d3a4d5f0777dcdda4b69af639113248d86ab404329ad8d888f87c327bb86214ee30500c2842dc915785ebbfd4",
+            "timestamp": 1771577356
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "2ac5840438",
+        "metadata": {
+            "version": "2ac5840438",
+            "filename": "ncs-toolchain-x86_64-linux-2ac5840438.tar.gz",
+            "sha512": "f400a71b6dd8eed63ca5f063dcfb2c067d259b1f6728522171a0618874ff3b353883d9c1a9ec68c600d91735cbbcfbb59aa58d744776fb812ef4cb45cada78ba",
+            "timestamp": 1771579580
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.3",
+        "metadata": {
+            "version": "2ac5840438",
+            "filename": "ncs-toolchain-x86_64-linux-2ac5840438.tar.gz",
+            "sha512": "f400a71b6dd8eed63ca5f063dcfb2c067d259b1f6728522171a0618874ff3b353883d9c1a9ec68c600d91735cbbcfbb59aa58d744776fb812ef4cb45cada78ba",
+            "timestamp": 1771579580
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7399bc51fa",
+        "metadata": {
+            "version": "7399bc51fa",
+            "filename": "ncs-toolchain-x86_64-linux-7399bc51fa.tar.gz",
+            "sha512": "1464830caf58ceeb2575b5b0d43eb8f50da200505bf4ed1682f9ddd17063f7b2bb9bac23d2187df7943885c917e91522e32725f7ff9f0eacd1d73ab913f3f008",
+            "timestamp": 1772196970
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0-preview2",
+        "metadata": {
+            "version": "7399bc51fa",
+            "filename": "ncs-toolchain-x86_64-linux-7399bc51fa.tar.gz",
+            "sha512": "1464830caf58ceeb2575b5b0d43eb8f50da200505bf4ed1682f9ddd17063f7b2bb9bac23d2187df7943885c917e91522e32725f7ff9f0eacd1d73ab913f3f008",
+            "timestamp": 1772196970
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "7fe2179297",
+        "metadata": {
+            "version": "7fe2179297",
+            "filename": "ncs-toolchain-x86_64-linux-7fe2179297.tar.gz",
+            "sha512": "cfdf15b7c628349d2db945d4466c405f3c76979fc3a5e128338f153cfd4b5516c6375b8df3cab5b286654771d60288ec3f4435c6c48b036eaebe6bc3fb774561",
+            "timestamp": 1772546723
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.5",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.2.4",
+        "metadata": {
+            "version": "2ac5840438",
+            "filename": "ncs-toolchain-x86_64-linux-2ac5840438.tar.gz",
+            "sha512": "f400a71b6dd8eed63ca5f063dcfb2c067d259b1f6728522171a0618874ff3b353883d9c1a9ec68c600d91735cbbcfbb59aa58d744776fb812ef4cb45cada78ba",
+            "timestamp": 1771579580
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "11e0b0bee7",
+        "metadata": {
+            "version": "11e0b0bee7",
+            "filename": "ncs-toolchain-x86_64-linux-11e0b0bee7.tar.gz",
+            "sha512": "66347ddfe9059fa135c18c25987eaa851cc07862a0b5f243c4813f50ab441566beaac68c80232d4b28e80d9edbd07f839cd3f27f996a7c95f7090a294620c4dd",
+            "timestamp": 1773828600
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "6dcbd79d54",
+        "metadata": {
+            "version": "6dcbd79d54",
+            "filename": "ncs-toolchain-x86_64-linux-6dcbd79d54.tar.gz",
+            "sha512": "9ca30fbc241586f206d34ac4c08fbd26b3d8ffc07e6299fdffd1f38bedb1630831d85379c5132fa485128a95aa1cb5f97f6ef0650b5668e0c9ca54db71950fa7",
+            "timestamp": 1773906139
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0-preview3",
+        "metadata": {
+            "version": "11e0b0bee7",
+            "filename": "ncs-toolchain-x86_64-linux-11e0b0bee7.tar.gz",
+            "sha512": "66347ddfe9059fa135c18c25987eaa851cc07862a0b5f243c4813f50ab441566beaac68c80232d4b28e80d9edbd07f839cd3f27f996a7c95f7090a294620c4dd",
+            "timestamp": 1773828600
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "911f4c5c26",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "358241a76d",
+        "metadata": {
+            "version": "358241a76d",
+            "filename": "ncs-toolchain-x86_64-linux-358241a76d.tar.gz",
+            "sha512": "f4bce12dac8e550bfd550697afe4fec71b8e38d0f3f7f3bdc308517fb78af09a9d98b50438425d08b83484d33e85b19a297cae11698cdaf1e26499bf97a690f0",
+            "timestamp": 1774542099
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0-rc1",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "53ac68dd62",
+        "metadata": {
+            "version": "53ac68dd62",
+            "filename": "ncs-toolchain-x86_64-linux-53ac68dd62.tar.gz",
+            "sha512": "e4c1de64c90c135bd2010061f012518bef5c9984b2e6ae09af5987d4bd5d915bb032b4f20b74ba2cf54d0b04604209eaa87a6a6e8a79b662e8015cc8a4159b31",
+            "timestamp": 1776165748
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "0648e88491",
+        "metadata": {
+            "version": "0648e88491",
+            "filename": "ncs-toolchain-x86_64-linux-0648e88491.tar.gz",
+            "sha512": "9d889883c6fbfb8f5c98bd5ca4b3f096653a7972581d19f2cebf1c2d2d503294e6811e26f83d0fa941de5b2631bcb8451c8478223714b08b6fb0da47118ddc24",
+            "timestamp": 1776185331
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0-rc2",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "c2cbe94be3",
+        "metadata": {
+            "version": "c2cbe94be3",
+            "filename": "ncs-toolchain-x86_64-linux-c2cbe94be3.tar.gz",
+            "sha512": "1613a649e0da187939d5f48d280cc4f146c943d229f7d10a4ad6275c9620097f4a78c4dd7f56381018dc4617642d3135884a43f2c4655a0346b9b9c6a331e838",
+            "timestamp": 1776420986
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b50f8a9630",
+        "metadata": {
+            "version": "b50f8a9630",
+            "filename": "ncs-toolchain-x86_64-linux-b50f8a9630.tar.gz",
+            "sha512": "9c90c76a124be39cc9103219e2ea6d4bd8e9baa498289b88f8c107d3e9189df5958072325a81ed0318c7fdef9914501a5e224bfbc183cec7c5e4810a00ecd5f5",
+            "timestamp": 1776861593
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.0",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.9.3",
+        "metadata": {
+            "version": "b77d8c1312",
+            "filename": "ncs-toolchain-x86_64-linux-b77d8c1312.tar.gz",
+            "sha512": "3f690937fefa7d88928750b88fc297de89774b6a3c6a9b1caef06abd8c83b086a9851078f52a4c7a259e86aed6ed01f2f9a1e13c9a913bd9cdbb0418f9270cb5",
+            "timestamp": 1732043660
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "1ae3ff8011",
+        "metadata": {
+            "version": "1ae3ff8011",
+            "filename": "ncs-toolchain-x86_64-linux-1ae3ff8011.tar.gz",
+            "sha512": "166f70a29ec3b8b67d6e55077ec2de4c47cc7181ba248bae612a07f9e9c29cf5e787d6f373f31911bd6d367594daea80424a5daa3e82ebba855d74cd74976593",
+            "timestamp": 1777369641
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "eb11c27a58",
+        "metadata": {
+            "version": "eb11c27a58",
+            "filename": "ncs-toolchain-x86_64-linux-eb11c27a58.tar.gz",
+            "sha512": "914b2894228215b05d614ab7dd92ff2ed695413829bbb78a1d765b244a9822cea757b50d0466dfae0e9fb6f57da0c01e847e3ee29773056eeba6ab0e425814f1",
+            "timestamp": 1777894222
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v2.6.6",
+        "metadata": {
+            "version": "2be090971e",
+            "filename": "ncs-toolchain-x86_64-linux-2be090971e.tar.gz",
+            "sha512": "24b77748213f356ce8490c2c7ae8ddafbbf032e0f2eb75983555520f170288355640e4f9ec9d8c21756b4d5adae4ecf7631a3f2a3d600905b3bad150ce80af1a",
+            "timestamp": 1709551161
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "f0aa129f09",
+        "metadata": {
+            "version": "f0aa129f09",
+            "filename": "ncs-toolchain-x86_64-linux-f0aa129f09.tar.gz",
+            "sha512": "a2d4af24bf398d391dc65bb33e95ad9895e10494d76a94c147998f5d05afe1c8b08359d50d55c88af4dd5ed26902ce5c6f2ffb6228e98c725d5fbc824c37b470",
+            "timestamp": 1778580528
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.1-rc1",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.4.0-rc1",
+        "metadata": {
+            "version": "f0aa129f09",
+            "filename": "ncs-toolchain-x86_64-linux-f0aa129f09.tar.gz",
+            "sha512": "a2d4af24bf398d391dc65bb33e95ad9895e10494d76a94c147998f5d05afe1c8b08359d50d55c88af4dd5ed26902ce5c6f2ffb6228e98c725d5fbc824c37b470",
+            "timestamp": 1778580528
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "19756db709",
+        "metadata": {
+            "version": "19756db709",
+            "filename": "ncs-toolchain-x86_64-linux-19756db709.tar.gz",
+            "sha512": "8d93dbdcdffd3268a8ec0d3f3d04d15e4073ac6737246569c6cbbe9e73c7974684d4ef36061fd7f1a3c73d8480bb3a43b14e90f4e68f3196ad5366d9e3f048b2",
+            "timestamp": 1779995854
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b819b2845f",
+        "metadata": {
+            "version": "b819b2845f",
+            "filename": "ncs-toolchain-x86_64-linux-b819b2845f.tar.gz",
+            "sha512": "8073b8207805bea3ae3c70349a3bdac3fcf307e81fae50232eeae34ea3371e85e47b04afbdf06c5345d657b4fee1164de4c5d78c3e8e1403901973e6212246ca",
+            "timestamp": 1780309605
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.3.1",
+        "metadata": {
+            "version": "911f4c5c26",
+            "filename": "ncs-toolchain-x86_64-linux-911f4c5c26.tar.gz",
+            "sha512": "6155e8deca6e567c53800d6730368bcf7e8aa40d4c0089233a7cabb17ceff750e2ea768e41964abcc3ccad4049eb214be87b81c06a41603971e25cf8239dd6b1",
+            "timestamp": 1774343843
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "fbf7391cab",
+        "metadata": {
+            "version": "fbf7391cab",
+            "filename": "ncs-toolchain-x86_64-linux-fbf7391cab.tar.gz",
+            "sha512": "c101bc44c0524a64043193f20b8a7a740cae5c60f6a10094dccd5d88e9943ac86f4bef29de1746db88555ec103b8fd5756a02d0f3a9366d7299afe531479a7ae",
+            "timestamp": 1781518428
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.5.0-preview1",
+        "metadata": {
+            "version": "b819b2845f",
+            "filename": "ncs-toolchain-x86_64-linux-b819b2845f.tar.gz",
+            "sha512": "8073b8207805bea3ae3c70349a3bdac3fcf307e81fae50232eeae34ea3371e85e47b04afbdf06c5345d657b4fee1164de4c5d78c3e8e1403901973e6212246ca",
+            "timestamp": 1780309605
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "v3.4.0-rc2",
+        "metadata": {
+            "version": "fbf7391cab",
+            "filename": "ncs-toolchain-x86_64-linux-fbf7391cab.tar.gz",
+            "sha512": "c101bc44c0524a64043193f20b8a7a740cae5c60f6a10094dccd5d88e9943ac86f4bef29de1746db88555ec103b8fd5756a02d0f3a9366d7299afe531479a7ae",
+            "timestamp": 1781518428
+        }
+    },
+    {
+        "json_api_version": 2,
+        "key": "b183418627",
+        "metadata": {
+            "version": "b183418627",
+            "filename": "ncs-toolchain-x86_64-linux-b183418627.tar.gz",
+            "sha512": "afa203902e9f1035eb6e38ce8c34d7e6b3a3de3bbedf15ffdba9a699ac753b61aac9666f296d1f3d0325276645032840ced39489c1c8ab159d72c039eb644d58",
+            "timestamp": 1782199898
+        }
+    }
+]
