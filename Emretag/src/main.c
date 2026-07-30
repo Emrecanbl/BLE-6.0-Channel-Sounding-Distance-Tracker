@@ -19,13 +19,22 @@
 #include <bluetooth/services/ras.h>
 #include <zephyr/settings/settings.h>
 #include <dk_buttons_and_leds.h>
-
+#include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/gap.h>
+#include <zephyr/bluetooth/uuid.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/bluetooth/addr.h>
+#include <zephyr/drivers/regulator.h> // Antenna
+#include <zephyr/drivers/gpio.h>
 
-#include <zephyr/drivers/regulator.h> // Antenna 
 LOG_MODULE_REGISTER(app_main, LOG_LEVEL_INF);
 
+#define COMPANY_ID_CODE 0x0059
 #define CON_STATUS_LED DK_LED1
+
+#define SW0_NODE DT_ALIAS(sw0)
+static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
+static struct gpio_callback button_cb_data;
 
 static K_SEM_DEFINE(sem_connected, 0, 1);
 static K_SEM_DEFINE(sem_config, 0, 1);
@@ -35,12 +44,95 @@ static struct bt_conn *connection;
 static const struct device *rfsw_pwr = DEVICE_DT_GET(DT_NODELABEL(rfsw_pwr)); // Antenna Enable
 static const struct device *rfsw_ctl = DEVICE_DT_GET(DT_NODELABEL(rfsw_ctl));
 
+typedef struct adv_mfg_data {
+	uint16_t company_code; /* Company Identifier Code. */
+	uint16_t number_press; /* Number of times Button 1 is pressed */
+} adv_mfg_data_type;
+
+static adv_mfg_data_type adv_mfg_data = { COMPANY_ID_CODE, 0x00 };
+
 static const struct bt_data ad[] = {
 	BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
 	BT_DATA_BYTES(BT_DATA_UUID16_ALL, BT_UUID_16_ENCODE(BT_UUID_RANGING_SERVICE_VAL)),
 	BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME, sizeof(CONFIG_BT_DEVICE_NAME) - 1),
+	BT_DATA(BT_DATA_MANUFACTURER_DATA, (unsigned char *)&adv_mfg_data, sizeof(adv_mfg_data)),
 };
 
+static const unsigned char url_data[] = {0x17, '/','/','g','i','t','h','u','b','.','c','o',
+                                         'm','/','E','m','r','e','c','a','n','b','l'};
+
+static const struct bt_data sd[] = {
+        /* 4.2.3 Include the URL data in the scan response packet*/
+	BT_DATA(BT_DATA_URI, url_data, sizeof(url_data)),
+};
+
+static const struct bt_le_adv_param *adv_param =
+	BT_LE_ADV_PARAM(BT_LE_ADV_OPT_NONE, /* No options specified */
+			800, /* Min Advertising Interval 500ms (800*0.625ms) */
+			801, /* Max Advertising Interval 500.625ms (801*0.625ms) */
+			NULL); /* Set to NULL for undirected advertising */
+
+/* bt_le_adv_update_data() sends an HCI command and can block, so it cannot run
+ * in the GPIO ISR. Only the advertising refresh is deferred to the workqueue -
+ * the press count is incremented in the ISR so that no press is lost when
+ * several arrive before the work item gets to run.
+ */
+static void adv_update_work_handler(struct k_work *work)
+{
+	int err;
+
+	ARG_UNUSED(work);
+
+	err = bt_le_adv_update_data(ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+	if (err) {
+		LOG_WRN("Failed to update advertising data (err %d)", err);
+	}
+}
+
+static K_WORK_DEFINE(adv_update_work, adv_update_work_handler);
+
+static void button_pressed(const struct device *port, struct gpio_callback *cb, uint32_t pins)
+{
+	ARG_UNUSED(port);
+	ARG_UNUSED(cb);
+	ARG_UNUSED(pins);
+
+	adv_mfg_data.number_press += 1;
+
+	k_work_submit(&adv_update_work);
+}
+
+static int init_button(void)
+{
+	int err;
+
+	if (!gpio_is_ready_dt(&button)) {
+		LOG_ERR("Button GPIO port is not ready");
+		return -ENODEV;
+	}
+
+	err = gpio_pin_configure_dt(&button, GPIO_INPUT);
+	if (err) {
+		LOG_ERR("Failed to configure button pin (err %d)", err);
+		return err;
+	}
+
+	err = gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_TO_ACTIVE);
+	if (err) {
+		LOG_ERR("Failed to configure button interrupt (err %d)", err);
+		return err;
+	}
+
+	gpio_init_callback(&button_cb_data, button_pressed, BIT(button.pin));
+
+	err = gpio_add_callback_dt(&button, &button_cb_data);
+	if (err) {
+		LOG_ERR("Failed to add button callback (err %d)", err);
+		return err;
+	}
+
+	return 0;
+}
 static void connected_cb(struct bt_conn *conn, uint8_t err)
 {
 	char addr[BT_ADDR_LE_STR_LEN];
@@ -231,19 +323,28 @@ int main(void)
 	err = bt_enable(NULL);
 	if (err) {
 		LOG_ERR("Bluetooth init failed (err %d)", err);
-		return 0;
+		return -1;
 	}
-
+	LOG_ERR("1");
 	if (IS_ENABLED(CONFIG_BT_SETTINGS)) {
 		settings_load();
 	}
-
-	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_2, ad, ARRAY_SIZE(ad), NULL, 0);
+	LOG_ERR("2");
+	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_2, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 	if (err) {
 		LOG_ERR("Advertising failed to start (err %d)", err);
-		return 0;
+		return -1;
 	}
-
+	LOG_ERR("3");
+	/* Set up after advertising is running, so a button press can never reach
+	 * bt_le_adv_update_data() before the stack is ready.
+	 */
+	err = init_button();
+	if (err) {
+		LOG_ERR("Button init failed (err %d)", err);
+		return -1;
+	}
+	LOG_ERR("4");
 	while (true) {
 		k_sem_take(&sem_connected, K_FOREVER);
 
@@ -253,12 +354,12 @@ int main(void)
 			.cs_sync_antenna_selection = BT_LE_CS_ANTENNA_SELECTION_OPT_REPETITIVE,
 			.max_tx_power = BT_HCI_OP_LE_CS_MAX_MAX_TX_POWER,
 		};
-
+		LOG_ERR("5(err %d)", err);
 		err = bt_le_cs_set_default_settings(connection, &default_settings);
 		if (err) {
 			LOG_ERR("Failed to configure default CS settings (err %d)", err);
 		}
-
+		LOG_ERR("5");
 		k_sem_take(&sem_config, K_FOREVER);
 
 		const struct bt_le_cs_set_procedure_parameters_param procedure_params = {
