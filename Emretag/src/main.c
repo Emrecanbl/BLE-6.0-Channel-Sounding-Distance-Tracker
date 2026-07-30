@@ -10,6 +10,7 @@
 
 #include <zephyr/types.h>
 #include <zephyr/kernel.h>
+#include <zephyr/init.h>
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/sys/byteorder.h>
 #include <zephyr/sys/reboot.h>
@@ -18,23 +19,68 @@
 #include <zephyr/bluetooth/cs.h>
 #include <bluetooth/services/ras.h>
 #include <zephyr/settings/settings.h>
-#include <dk_buttons_and_leds.h>
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/gap.h>
 #include <zephyr/bluetooth/uuid.h>
+#include <zephyr/bluetooth/gatt.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/bluetooth/addr.h>
 #include <zephyr/drivers/regulator.h> // Antenna
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/sensor.h>
 
 LOG_MODULE_REGISTER(app_main, LOG_LEVEL_INF);
 
 #define COMPANY_ID_CODE 0x0059
-#define CON_STATUS_LED DK_LED1
 
-#define SW0_NODE DT_ALIAS(sw0)
+#define SW0_NODE  DT_ALIAS(sw0)
+#define LED0_NODE DT_ALIAS(led0)
+#define IMU_NODE  DT_ALIAS(imu0)
+
+/* Buzzer and vibration motor are not described by the board devicetree, so the
+ * pins are given here. Port/pin follow the XIAO connector mapping in
+ * seeed_xiao_connector.dtsi; use GPIO_ACTIVE_LOW if the driver transistor turns
+ * the load on when the pin is pulled low.
+ *
+ * CHANGE THESE TO MATCH YOUR WIRING - D0/D1 are only placeholders. Watch out
+ * for gpio2: it also carries the LED (pin 0) and the RF switch (pins 3 and 5).
+ */
+#define BUZZER_PORT  DT_NODELABEL(gpio1)
+#define BUZZER_PIN   4			/* D0 -> P1.04 */
+#define BUZZER_FLAGS GPIO_ACTIVE_HIGH
+
+#define VIB_PORT  DT_NODELABEL(gpio1)
+#define VIB_PIN   5			/* D1 -> P1.05 */
+#define VIB_FLAGS GPIO_ACTIVE_HIGH
+
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
 static struct gpio_callback button_cb_data;
+
+/* A GPIO output the peer can switch on and off over GATT. */
+struct gpio_output {
+	const struct gpio_dt_spec spec;
+	const char *name;
+	uint8_t state;
+};
+
+/* The LED doubles as the connection status indicator. */
+static struct gpio_output led = {
+	.spec = GPIO_DT_SPEC_GET(LED0_NODE, gpios),
+	.name = "LED",
+};
+
+static struct gpio_output buzzer = {
+	.spec = { .port = DEVICE_DT_GET(BUZZER_PORT), .pin = BUZZER_PIN,
+		  .dt_flags = BUZZER_FLAGS },
+	.name = "Buzzer",
+};
+
+static struct gpio_output vibration_motor = {
+	.spec = { .port = DEVICE_DT_GET(VIB_PORT), .pin = VIB_PIN, .dt_flags = VIB_FLAGS },
+	.name = "Vibration motor",
+};
+
+static struct gpio_output *const outputs[] = { &led, &buzzer, &vibration_motor };
 
 static K_SEM_DEFINE(sem_connected, 0, 1);
 static K_SEM_DEFINE(sem_config, 0, 1);
@@ -72,16 +118,128 @@ static const struct bt_le_adv_param *adv_param =
 			801, /* Max Advertising Interval 500.625ms (801*0.625ms) */
 			NULL); /* Set to NULL for undirected advertising */
 
-/* bt_le_adv_update_data() sends an HCI command and can block, so it cannot run
- * in the GPIO ISR. Only the advertising refresh is deferred to the workqueue -
- * the press count is incremented in the ISR so that no press is lost when
- * several arrive before the work item gets to run.
+/* Button service. Uses the Nordic LED Button Service UUIDs so that nRF Connect
+ * and the nRF Toolbox apps recognise the characteristic out of the box.
  */
-static void adv_update_work_handler(struct k_work *work)
+#define BT_UUID_BTN_SVC_VAL                                                                        \
+	BT_UUID_128_ENCODE(0x00001523, 0x1212, 0xefde, 0x1523, 0x785feabcd123)
+#define BT_UUID_BTN_CHRC_VAL                                                                       \
+	BT_UUID_128_ENCODE(0x00001524, 0x1212, 0xefde, 0x1523, 0x785feabcd123)
+#define BT_UUID_LED_CHRC_VAL                                                                       \
+	BT_UUID_128_ENCODE(0x00001525, 0x1212, 0xefde, 0x1523, 0x785feabcd123)
+#define BT_UUID_BUZZER_CHRC_VAL                                                                    \
+	BT_UUID_128_ENCODE(0x00001526, 0x1212, 0xefde, 0x1523, 0x785feabcd123)
+#define BT_UUID_VIB_CHRC_VAL                                                                       \
+	BT_UUID_128_ENCODE(0x00001527, 0x1212, 0xefde, 0x1523, 0x785feabcd123)
+
+#define BT_UUID_BTN_SVC     BT_UUID_DECLARE_128(BT_UUID_BTN_SVC_VAL)
+#define BT_UUID_BTN_CHRC    BT_UUID_DECLARE_128(BT_UUID_BTN_CHRC_VAL)
+#define BT_UUID_LED_CHRC    BT_UUID_DECLARE_128(BT_UUID_LED_CHRC_VAL)
+#define BT_UUID_BUZZER_CHRC BT_UUID_DECLARE_128(BT_UUID_BUZZER_CHRC_VAL)
+#define BT_UUID_VIB_CHRC    BT_UUID_DECLARE_128(BT_UUID_VIB_CHRC_VAL)
+
+/* 1 while the button is held down, 0 once it is released. */
+static uint8_t button_state;
+static bool button_notify_enabled;
+
+static ssize_t read_button(struct bt_conn *conn, const struct bt_gatt_attr *attr, void *buf,
+			   uint16_t len, uint16_t offset)
+{
+	const uint8_t *value = attr->user_data;
+
+	return bt_gatt_attr_read(conn, attr, buf, len, offset, value, sizeof(*value));
+}
+
+static void button_ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t value)
+{
+	ARG_UNUSED(attr);
+
+	button_notify_enabled = (value == BT_GATT_CCC_NOTIFY);
+	LOG_INF("Button notifications %s", button_notify_enabled ? "enabled" : "disabled");
+}
+
+static ssize_t read_output(struct bt_conn *conn, const struct bt_gatt_attr *attr, void *buf,
+			   uint16_t len, uint16_t offset)
+{
+	const struct gpio_output *out = attr->user_data;
+
+	return bt_gatt_attr_read(conn, attr, buf, len, offset, &out->state, sizeof(out->state));
+}
+
+static ssize_t write_output(struct bt_conn *conn, const struct bt_gatt_attr *attr, const void *buf,
+			    uint16_t len, uint16_t offset, uint8_t flags)
+{
+	struct gpio_output *out = attr->user_data;
+
+	ARG_UNUSED(conn);
+	ARG_UNUSED(flags);
+
+	if (offset != 0) {
+		return BT_GATT_ERR(BT_ATT_ERR_INVALID_OFFSET);
+	}
+
+	if (len != sizeof(out->state)) {
+		return BT_GATT_ERR(BT_ATT_ERR_INVALID_ATTRIBUTE_LEN);
+	}
+
+	out->state = (((const uint8_t *)buf)[0] != 0) ? 1 : 0;
+	gpio_pin_set_dt(&out->spec, out->state);
+
+	LOG_INF("%s set to %u by peer", out->name, out->state);
+
+	return len;
+}
+
+/* Each characteristic carries a User Description descriptor (0x2901) so that a
+ * generic GATT client shows a name instead of just the 128-bit UUID. The button
+ * value stays at attrs[2] - descriptors are appended after it, never before.
+ */
+BT_GATT_SERVICE_DEFINE(app_svc,
+	BT_GATT_PRIMARY_SERVICE(BT_UUID_BTN_SVC),
+
+	BT_GATT_CHARACTERISTIC(BT_UUID_BTN_CHRC,
+			       BT_GATT_CHRC_READ | BT_GATT_CHRC_NOTIFY,
+			       BT_GATT_PERM_READ,
+			       read_button, NULL, &button_state),
+	BT_GATT_CCC(button_ccc_cfg_changed, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+	BT_GATT_CUD("Button", BT_GATT_PERM_READ),
+
+	BT_GATT_CHARACTERISTIC(BT_UUID_LED_CHRC,
+			       BT_GATT_CHRC_READ | BT_GATT_CHRC_WRITE,
+			       BT_GATT_PERM_READ | BT_GATT_PERM_WRITE,
+			       read_output, write_output, &led),
+	BT_GATT_CUD("LED", BT_GATT_PERM_READ),
+
+	BT_GATT_CHARACTERISTIC(BT_UUID_BUZZER_CHRC,
+			       BT_GATT_CHRC_READ | BT_GATT_CHRC_WRITE,
+			       BT_GATT_PERM_READ | BT_GATT_PERM_WRITE,
+			       read_output, write_output, &buzzer),
+	BT_GATT_CUD("Buzzer", BT_GATT_PERM_READ),
+
+	BT_GATT_CHARACTERISTIC(BT_UUID_VIB_CHRC,
+			       BT_GATT_CHRC_READ | BT_GATT_CHRC_WRITE,
+			       BT_GATT_PERM_READ | BT_GATT_PERM_WRITE,
+			       read_output, write_output, &vibration_motor),
+	BT_GATT_CUD("Vibration motor", BT_GATT_PERM_READ),
+);
+
+/* bt_gatt_notify() and bt_le_adv_update_data() can block, so neither may run in
+ * the GPIO ISR. The ISR only samples the pin and hands off to the workqueue.
+ */
+static void button_work_handler(struct k_work *work)
 {
 	int err;
 
 	ARG_UNUSED(work);
+
+	if (button_notify_enabled) {
+		/* attrs[2] is the characteristic value attribute. */
+		err = bt_gatt_notify(NULL, &app_svc.attrs[2], &button_state,
+				     sizeof(button_state));
+		if (err) {
+			LOG_WRN("Failed to notify button state (err %d)", err);
+		}
+	}
 
 	err = bt_le_adv_update_data(ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 	if (err) {
@@ -89,7 +247,7 @@ static void adv_update_work_handler(struct k_work *work)
 	}
 }
 
-static K_WORK_DEFINE(adv_update_work, adv_update_work_handler);
+static K_WORK_DEFINE(button_work, button_work_handler);
 
 static void button_pressed(const struct device *port, struct gpio_callback *cb, uint32_t pins)
 {
@@ -97,10 +255,131 @@ static void button_pressed(const struct device *port, struct gpio_callback *cb, 
 	ARG_UNUSED(cb);
 	ARG_UNUSED(pins);
 
-	adv_mfg_data.number_press += 1;
+	/* Logical level: 1 when pressed, regardless of the active-low wiring. */
+	button_state = (gpio_pin_get_dt(&button) > 0) ? 1 : 0;
 
-	k_work_submit(&adv_update_work);
+	if (button_state) {
+		adv_mfg_data.number_press += 1;
+	}
+
+	k_work_submit(&button_work);
 }
+
+static int init_outputs(void)
+{
+	for (size_t i = 0; i < ARRAY_SIZE(outputs); i++) {
+		struct gpio_output *out = outputs[i];
+		int err;
+
+		if (!gpio_is_ready_dt(&out->spec)) {
+			LOG_ERR("%s GPIO port is not ready", out->name);
+			return -ENODEV;
+		}
+
+		err = gpio_pin_configure_dt(&out->spec, GPIO_OUTPUT_INACTIVE);
+		if (err) {
+			LOG_ERR("Failed to configure %s pin (err %d)", out->name, err);
+			return err;
+		}
+	}
+
+	return 0;
+}
+
+/* IMU sampling. The sensor is polled rather than driven from its INT line, so
+ * this runs in its own thread and does not disturb the Bluetooth work queues.
+ */
+#define IMU_SAMPLE_INTERVAL_MS 500
+#define IMU_STACK_SIZE	       2048
+#define IMU_PRIORITY	       7
+
+static const struct device *const imu = DEVICE_DT_GET(IMU_NODE);
+
+/* The IMU supply hangs off P0.01 via the pdm_imu_pwr regulator. The board DTS
+ * marks it regulator-boot-on, but the same is true of the RF switch nodes and
+ * those still needed an explicit enable, so do not rely on it here either.
+ *
+ * This has to run before the sensor driver probes the chip over I2C, otherwise
+ * the WHO_AM_I read fails and the device stays permanently un-ready - enabling
+ * the rail from main() would be far too late. POST_KERNEL 60 sits after I2C
+ * (50) and before the sensors (CONFIG_SENSOR_INIT_PRIORITY, 90).
+ */
+static const struct device *const imu_pwr = DEVICE_DT_GET(DT_NODELABEL(pdm_imu_pwr));
+
+static int imu_power_on(void)
+{
+	int err;
+
+	if (!device_is_ready(imu_pwr)) {
+		LOG_ERR("IMU regulator is not ready");
+		return -ENODEV;
+	}
+
+	err = regulator_enable(imu_pwr);
+	if (err) {
+		LOG_ERR("Failed to enable the IMU regulator (err %d)", err);
+		return err;
+	}
+
+	/* regulator_enable() already honours the 5 ms startup-delay-us from the
+	 * DTS; this covers the sensor's own power-on boot time on top of it.
+	 */
+	k_msleep(20);
+
+	return 0;
+}
+
+SYS_INIT(imu_power_on, POST_KERNEL, 60);
+
+static void imu_thread_fn(void *p1, void *p2, void *p3)
+{
+	struct sensor_value accel[3];
+	struct sensor_value gyro[3];
+
+	ARG_UNUSED(p1);
+	ARG_UNUSED(p2);
+	ARG_UNUSED(p3);
+
+	if (!device_is_ready(imu)) {
+		LOG_ERR("IMU %s is not ready", imu->name);
+		return;
+	}
+
+	LOG_INF("IMU %s ready, sampling every %d ms", imu->name, IMU_SAMPLE_INTERVAL_MS);
+
+	while (true) {
+		int err = sensor_sample_fetch(imu);
+
+		if (err) {
+			LOG_ERR("IMU sample fetch failed (err %d)", err);
+			k_msleep(IMU_SAMPLE_INTERVAL_MS);
+			continue;
+		}
+
+		err = sensor_channel_get(imu, SENSOR_CHAN_ACCEL_XYZ, accel);
+		if (err) {
+			LOG_ERR("Failed to read acceleration (err %d)", err);
+			k_msleep(IMU_SAMPLE_INTERVAL_MS);
+			continue;
+		}
+
+		err = sensor_channel_get(imu, SENSOR_CHAN_GYRO_XYZ, gyro);
+		if (err) {
+			LOG_ERR("Failed to read angular velocity (err %d)", err);
+			k_msleep(IMU_SAMPLE_INTERVAL_MS);
+			continue;
+		}
+
+		LOG_INF("accel %7.3f %7.3f %7.3f m/s2   gyro %7.3f %7.3f %7.3f rad/s",
+			sensor_value_to_double(&accel[0]), sensor_value_to_double(&accel[1]),
+			sensor_value_to_double(&accel[2]), sensor_value_to_double(&gyro[0]),
+			sensor_value_to_double(&gyro[1]), sensor_value_to_double(&gyro[2]));
+
+		k_msleep(IMU_SAMPLE_INTERVAL_MS);
+	}
+}
+
+K_THREAD_DEFINE(imu_thread, IMU_STACK_SIZE, imu_thread_fn, NULL, NULL, NULL, IMU_PRIORITY, 0, 0);
 
 static int init_button(void)
 {
@@ -117,7 +396,7 @@ static int init_button(void)
 		return err;
 	}
 
-	err = gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_TO_ACTIVE);
+	err = gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_BOTH);
 	if (err) {
 		LOG_ERR("Failed to configure button interrupt (err %d)", err);
 		return err;
@@ -148,7 +427,8 @@ static void connected_cb(struct bt_conn *conn, uint8_t err)
 
 		k_sem_give(&sem_connected);
 
-		dk_set_led_on(CON_STATUS_LED);
+		led.state = 1;
+		gpio_pin_set_dt(&led.spec, 1);
 	}
 }
 
@@ -159,7 +439,8 @@ static void disconnected_cb(struct bt_conn *conn, uint8_t reason)
 	bt_conn_unref(conn);
 	connection = NULL;
 
-	dk_set_led_off(CON_STATUS_LED);
+	led.state = 0;
+	gpio_pin_set_dt(&led.spec, 0);
 
 	sys_reboot(SYS_REBOOT_COLD);
 }
@@ -316,10 +597,17 @@ int main(void)
 
 	LOG_INF("Starting Channel Sounding Reflector Sample");
 
-	dk_leds_init();
+	err = init_outputs();
+	LOG_ERR("-2");
+	if (err) {
+		LOG_ERR("Output init failed (err %d)", err);
+		return -1;
+	}
+	LOG_ERR("0");
 	regulator_enable(rfsw_pwr);
 	k_msleep(1);                  /* let the switch supply settle */
 	regulator_enable(rfsw_ctl);  /* select onboard ceramic antenna */
+	LOG_ERR("0");
 	err = bt_enable(NULL);
 	if (err) {
 		LOG_ERR("Bluetooth init failed (err %d)", err);
