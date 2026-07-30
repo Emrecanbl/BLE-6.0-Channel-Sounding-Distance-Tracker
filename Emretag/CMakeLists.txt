@@ -11,5 +11,10 @@ project(Emretag)
 # NORDIC SDK APP START
 target_sources(app PRIVATE
   src/main.c
+  src/outputs.c
+  src/button.c
+  src/imu.c
+  src/app_gatt.c
+  src/ble_cs.c
 )
 # NORDIC SDK APP END

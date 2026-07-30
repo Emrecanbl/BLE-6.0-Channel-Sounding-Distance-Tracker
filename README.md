@@ -2,7 +2,7 @@
 
 A battery-powered tracker that measures the **real distance** between two nRF54L15 devices using **Bluetooth 6.0 Channel Sounding**, and guides the user to the tag with distance-aware haptic and acoustic feedback.
 
-> **Status:** In development. The tag advertises, connects, and exposes a custom GATT profile for its button and its LED / buzzer / vibration outputs. Channel Sounding is configured on the reflector side but does not yet deliver distance values to the locator. Everything in [Power architecture](#4-power-architecture) is still design intent, not running code.
+> **Status:** In development. Channel Sounding ranging works between the tag and an nRF54L15 DK acting as locator — distance values are produced over the air. The tag also exposes a custom GATT profile for its button and its LED / buzzer / vibration outputs. Everything in [Power architecture](#4-power-architecture) is still design intent, not running code.
 
 Built on **Zephyr RTOS** with the nRF Connect SDK.
 
@@ -91,18 +91,18 @@ The buzzer and vibration motor draw far more peak current than the radio ever do
 
 **Running today**
 
+- **Channel Sounding ranging** against an nRF54L15 DK: the tag takes the reflector role, applies CS default settings and procedure parameters on connection, and serves ranging data through the **Ranging Service (RAS)** responder, so the locator gets real distance values
 - Custom **GATT profile** over 128-bit UUIDs: button state (read + notify), and LED, buzzer and vibration motor as writable on/off characteristics, each named with a User Description descriptor
 - Board I/O straight off devicetree — `DT_ALIAS(sw0)` / `DT_ALIAS(led0)` with `gpio_dt_spec`, GPIO interrupt for the button, work queue hand-off so no Bluetooth call runs in ISR context
 - RF switch brought up and the ceramic antenna selected before `bt_enable()`
 - IMU sampling: LSM6DS3TR-C polled in its own thread, accelerometer and gyroscope logged over the serial console; the shared PDM/IMU supply rail is enabled from a `SYS_INIT` hook that runs before the sensor driver probes the chip
-- Channel Sounding reflector role configured — default settings and procedure parameters are applied once a connection is up
 
 **Not yet**
 
-- Distance service: no distance characteristic exists; the Ranging Service UUID is advertised but the RAS responder is not attached (`bt_ras_rrsp_alloc()` is never called), so no ranging data reaches the locator
+- Distance-aware behaviour on the tag itself: ranging data is served to the locator, but the tag does not act on distance (no Find-Me feedback tied to range)
 - Motion-driven power state machine
 - PWM buzzer patterns and vibration profiles
-- Locator/initiator role
+- Locator/initiator firmware (currently the upstream sample on the DK)
 
 ---
 
@@ -128,9 +128,10 @@ Numbers are only claimed here once they have been measured on hardware.
 | Module | Status |
 |---|---|
 | Board bring-up (XIAO nRF54L15 Sense), incl. RF path fix | ✅ Working |
+| Channel Sounding ranging (tag ↔ nRF54L15 DK) | ✅ Working — distance values over RAS |
 | Custom GATT profile — button, LED, buzzer, vibration | ✅ Working |
 | IMU readout (polled, logged to serial) | ✅ Working |
-| Channel Sounding ranging | 🟡 Reflector configured; RAS not attached, no distance output |
+| Ranging accuracy characterised against ground truth | 🟡 Not measured yet |
 | Buzzer / vibration Find-Me output | 🟡 Switchable over GATT; pins not wired, no PWM patterns |
 | IMU wake-on-motion power state machine | 🔜 Planned — IMU is polled today |
 | Power profiling with PPK2 | 🔜 Planned — needs the power state machine first |
