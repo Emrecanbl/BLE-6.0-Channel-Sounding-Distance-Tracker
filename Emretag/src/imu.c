@@ -4,6 +4,8 @@
 
 #include <zephyr/kernel.h>
 #include <zephyr/init.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/i2c.h>
 #include <zephyr/drivers/regulator.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
@@ -162,15 +164,292 @@ static void imu_thread_fn(void *p1, void *p2, void *p3)
 		}
 
 		store_sample(accel, gyro);
-
+/*
 #if IMU_LOG_SAMPLES
 		LOG_INF("accel %7.3f %7.3f %7.3f m/s2   gyro %7.3f %7.3f %7.3f rad/s",
 			latest.accel[0], latest.accel[1], latest.accel[2],
 			latest.gyro[0], latest.gyro[1], latest.gyro[2]);
 #endif
-
+*/
 		k_msleep(IMU_SAMPLE_INTERVAL_MS);
 	}
 }
 
 K_THREAD_DEFINE(imu_thread, IMU_STACK_SIZE, imu_thread_fn, NULL, NULL, NULL, IMU_PRIORITY, 0, 0);
+
+/* ------------------------------------------------------------------------
+ * Motion detection.
+ *
+ * The Zephyr LSM6DSL driver only implements SENSOR_TRIG_DATA_READY, so the
+ * wake-up, tap and free-fall engines are not reachable through the sensor API.
+ * They are configured here by writing the chip's registers directly over the
+ * same I2C bus, and INT1 is taken as a plain GPIO interrupt.
+ *
+ * This only works while the driver is built with CONFIG_LSM6DSL_TRIGGER_NONE:
+ * otherwise the driver claims irq-gpios for its own data-ready handler.
+ *
+ * Register map: LSM6DS3TR-C datasheet, register-compatible with the LSM6DSL.
+ * ------------------------------------------------------------------------ */
+
+#define LSM6_REG_WAKE_UP_SRC		 0x1B
+#define LSM6_WAKE_UP_SRC_FF_IA		 BIT(5)
+#define LSM6_WAKE_UP_SRC_SLEEP_STATE_IA	 BIT(4)
+#define LSM6_WAKE_UP_SRC_WU_IA		 BIT(3)
+
+#define LSM6_REG_TAP_SRC 0x1C
+#define LSM6_TAP_SRC_SINGLE_TAP BIT(5)
+#define LSM6_TAP_SRC_DOUBLE_TAP BIT(4)
+
+#define LSM6_REG_TAP_CFG 0x58
+#define LSM6_TAP_CFG_INTERRUPTS_ENABLE BIT(7)
+#define LSM6_TAP_CFG_INACT_EN_SHIFT    5
+#define LSM6_TAP_CFG_INACT_EN_MASK     0x03
+#define LSM6_TAP_CFG_SLOPE_FDS	       BIT(4)
+#define LSM6_TAP_CFG_TAP_X_EN	       BIT(3)
+#define LSM6_TAP_CFG_TAP_Y_EN	       BIT(2)
+#define LSM6_TAP_CFG_TAP_Z_EN	       BIT(1)
+#define LSM6_TAP_CFG_LIR	       BIT(0)
+
+#define LSM6_REG_TAP_THS_6D   0x59
+#define LSM6_TAP_THS_6D_MASK  0x1F
+
+/* DUR = double-tap window, QUIET = dead time after a peak, SHOCK = maximum
+ * duration of the peak itself. 0x7F is the value ST's own examples use and it
+ * works for a tap through a plastic enclosure.
+ */
+#define LSM6_REG_INT_DUR2	0x5A
+#define LSM6_INT_DUR2_DEFAULT	0x7F
+
+#define LSM6_REG_WAKE_UP_THS		 0x5B
+#define LSM6_WAKE_UP_THS_MASK		 0x3F
+#define LSM6_WAKE_UP_THS_SINGLE_DOUBLE_TAP BIT(7)
+
+/* FF_DUR is split across two registers: the low five bits sit at 7:3 here, the
+ * sixth is WAKE_UP_DUR bit 7. Note that the Zephyr driver header carries a
+ * FREE_FALL duration shift of 4 while its own mask covers bits 7:3 - the driver
+ * never touches free fall, so the inconsistency has gone unnoticed. 3 is right.
+ */
+#define LSM6_REG_FREE_FALL	  0x5D
+#define LSM6_FREE_FALL_DUR_SHIFT  3
+#define LSM6_FREE_FALL_DUR_MASK	  0x1F
+#define LSM6_FREE_FALL_THS_MASK	  0x07
+#define LSM6_FREE_FALL_DUR5_BIT	  BIT(5)
+
+#define LSM6_REG_WAKE_UP_DUR	     0x5C
+#define LSM6_WAKE_UP_DUR_FF_DUR5     BIT(7)
+#define LSM6_WAKE_UP_DUR_WAKE_SHIFT  5
+#define LSM6_WAKE_UP_DUR_WAKE_MASK   0x03
+#define LSM6_WAKE_UP_DUR_SLEEP_MASK  0x0F
+
+#define LSM6_REG_MD1_CFG 0x5E
+#define LSM6_MD1_CFG_INT1_INACT_STATE BIT(7)
+#define LSM6_MD1_CFG_INT1_SINGLE_TAP BIT(6)
+#define LSM6_MD1_CFG_INT1_WU	     BIT(5)
+#define LSM6_MD1_CFG_INT1_FF	     BIT(4)
+#define LSM6_MD1_CFG_INT1_DOUBLE_TAP BIT(3)
+
+static const struct i2c_dt_spec imu_i2c = I2C_DT_SPEC_GET(IMU_NODE);
+static const struct gpio_dt_spec imu_int = GPIO_DT_SPEC_GET(IMU_NODE, irq_gpios);
+static struct gpio_callback imu_int_cb_data;
+
+static imu_event_cb_t event_cb;
+static struct imu_motion_config motion_cfg;
+
+static void report(enum imu_event event)
+{
+	if (event_cb) {
+		event_cb(event);
+	}
+}
+
+/* Reading the source registers needs I2C, which cannot run in the ISR. Reading
+ * them is also what clears the latched interrupt (TAP_CFG.LIR), so this must
+ * run for the pin to be released.
+ */
+static void imu_int_work_handler(struct k_work *work)
+{
+	uint8_t wake_src;
+	uint8_t tap_src;
+	int err;
+
+	ARG_UNUSED(work);
+
+	err = i2c_reg_read_byte_dt(&imu_i2c, LSM6_REG_WAKE_UP_SRC, &wake_src);
+	if (err) {
+		LOG_ERR("Failed to read WAKE_UP_SRC (err %d)", err);
+		return;
+	}
+
+	err = i2c_reg_read_byte_dt(&imu_i2c, LSM6_REG_TAP_SRC, &tap_src);
+	if (err) {
+		LOG_ERR("Failed to read TAP_SRC (err %d)", err);
+		return;
+	}
+
+	if (wake_src & LSM6_WAKE_UP_SRC_FF_IA) {
+		report(IMU_EVENT_FREE_FALL);
+	}
+
+	if (motion_cfg.inactivity_mode != IMU_INACTIVITY_OFF &&
+	    (wake_src & LSM6_WAKE_UP_SRC_SLEEP_STATE_IA)) {
+		report(IMU_EVENT_INACTIVE);
+	}
+
+	/* A double tap sets the single-tap bit too, so check double first and
+	 * only fall through when single taps are actually wanted.
+	 */
+	if (motion_cfg.detect_double_tap && (tap_src & LSM6_TAP_SRC_DOUBLE_TAP)) {
+		report(IMU_EVENT_DOUBLE_TAP);
+	} else if (motion_cfg.detect_single_tap && (tap_src & LSM6_TAP_SRC_SINGLE_TAP)) {
+		report(IMU_EVENT_SINGLE_TAP);
+	}
+
+	if (wake_src & LSM6_WAKE_UP_SRC_WU_IA) {
+		report(IMU_EVENT_WAKE_UP);
+	}
+}
+
+static K_WORK_DEFINE(imu_int_work, imu_int_work_handler);
+
+static void imu_int_isr(const struct device *port, struct gpio_callback *cb, uint32_t pins)
+{
+	ARG_UNUSED(port);
+	ARG_UNUSED(cb);
+	ARG_UNUSED(pins);
+
+	k_work_submit(&imu_int_work);
+}
+
+int imu_motion_detect_enable(imu_event_cb_t cb, const struct imu_motion_config *cfg)
+{
+	uint8_t tap_cfg;
+	uint8_t wake_ths;
+	uint8_t wake_dur;
+	uint8_t md1;
+	int err;
+
+	event_cb = cb;
+	motion_cfg = *cfg;
+
+	if (!device_is_ready(imu_i2c.bus)) {
+		LOG_ERR("IMU I2C bus is not ready");
+		return -ENODEV;
+	}
+
+	if (!gpio_is_ready_dt(&imu_int)) {
+		LOG_ERR("IMU interrupt GPIO port is not ready");
+		return -ENODEV;
+	}
+
+	/* Enable the interrupt engines and the tap detector on all three axes,
+	 * high-pass the accelerometer data so gravity does not count towards the
+	 * threshold, and latch the interrupt until the source register is read.
+	 */
+	tap_cfg = LSM6_TAP_CFG_INTERRUPTS_ENABLE | LSM6_TAP_CFG_SLOPE_FDS |
+		  LSM6_TAP_CFG_TAP_X_EN | LSM6_TAP_CFG_TAP_Y_EN | LSM6_TAP_CFG_TAP_Z_EN |
+		  LSM6_TAP_CFG_LIR;
+	tap_cfg |= (cfg->inactivity_mode & LSM6_TAP_CFG_INACT_EN_MASK)
+		   << LSM6_TAP_CFG_INACT_EN_SHIFT;
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_TAP_CFG, tap_cfg);
+	if (err) {
+		LOG_ERR("Failed to write TAP_CFG (err %d)", err);
+		return err;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_TAP_THS_6D,
+				    cfg->tap_threshold & LSM6_TAP_THS_6D_MASK);
+	if (err) {
+		LOG_ERR("Failed to write TAP_THS_6D (err %d)", err);
+		return err;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_INT_DUR2, LSM6_INT_DUR2_DEFAULT);
+	if (err) {
+		LOG_ERR("Failed to write INT_DUR2 (err %d)", err);
+		return err;
+	}
+
+	/* The double-tap detector only runs while SINGLE_DOUBLE_TAP is set; with
+	 * it cleared the chip reports single taps only. Single taps are silenced
+	 * by not routing them to INT1 below, not by clearing this bit.
+	 */
+	wake_ths = cfg->wake_threshold & LSM6_WAKE_UP_THS_MASK;
+	if (cfg->detect_double_tap) {
+		wake_ths |= LSM6_WAKE_UP_THS_SINGLE_DOUBLE_TAP;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_WAKE_UP_THS, wake_ths);
+	if (err) {
+		LOG_ERR("Failed to write WAKE_UP_THS (err %d)", err);
+		return err;
+	}
+
+	wake_dur = ((cfg->wake_duration & LSM6_WAKE_UP_DUR_WAKE_MASK)
+		    << LSM6_WAKE_UP_DUR_WAKE_SHIFT) |
+		   (cfg->inactivity_duration & LSM6_WAKE_UP_DUR_SLEEP_MASK);
+
+	/* The sixth bit of the free-fall duration lives here, not in FREE_FALL. */
+	if (cfg->freefall_duration & LSM6_FREE_FALL_DUR5_BIT) {
+		wake_dur |= LSM6_WAKE_UP_DUR_FF_DUR5;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_WAKE_UP_DUR, wake_dur);
+	if (err) {
+		LOG_ERR("Failed to write WAKE_UP_DUR (err %d)", err);
+		return err;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_FREE_FALL,
+				    ((cfg->freefall_duration & LSM6_FREE_FALL_DUR_MASK)
+				     << LSM6_FREE_FALL_DUR_SHIFT) |
+					    (cfg->freefall_threshold & LSM6_FREE_FALL_THS_MASK));
+	if (err) {
+		LOG_ERR("Failed to write FREE_FALL (err %d)", err);
+		return err;
+	}
+
+	md1 = LSM6_MD1_CFG_INT1_WU | LSM6_MD1_CFG_INT1_FF;
+	if (cfg->inactivity_mode != IMU_INACTIVITY_OFF) {
+		md1 |= LSM6_MD1_CFG_INT1_INACT_STATE;
+	}
+	if (cfg->detect_single_tap) {
+		md1 |= LSM6_MD1_CFG_INT1_SINGLE_TAP;
+	}
+	if (cfg->detect_double_tap) {
+		md1 |= LSM6_MD1_CFG_INT1_DOUBLE_TAP;
+	}
+
+	err = i2c_reg_write_byte_dt(&imu_i2c, LSM6_REG_MD1_CFG, md1);
+	if (err) {
+		LOG_ERR("Failed to route interrupts to INT1 (err %d)", err);
+		return err;
+	}
+
+	err = gpio_pin_configure_dt(&imu_int, GPIO_INPUT);
+	if (err) {
+		LOG_ERR("Failed to configure IMU interrupt pin (err %d)", err);
+		return err;
+	}
+
+	err = gpio_pin_interrupt_configure_dt(&imu_int, GPIO_INT_EDGE_TO_ACTIVE);
+	if (err) {
+		LOG_ERR("Failed to configure IMU interrupt (err %d)", err);
+		return err;
+	}
+
+	gpio_init_callback(&imu_int_cb_data, imu_int_isr, BIT(imu_int.pin));
+
+	err = gpio_add_callback_dt(&imu_int, &imu_int_cb_data);
+	if (err) {
+		LOG_ERR("Failed to add IMU interrupt callback (err %d)", err);
+		return err;
+	}
+
+	LOG_INF("Motion detection enabled (wake ths %u dur %u; tap ths %u, single %s double %s)",
+		cfg->wake_threshold, cfg->wake_duration, cfg->tap_threshold,
+		cfg->detect_single_tap ? "on" : "off",
+		cfg->detect_double_tap ? "on" : "off");
+
+	return 0;
+}

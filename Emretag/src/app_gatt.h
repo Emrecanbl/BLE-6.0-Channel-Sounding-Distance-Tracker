@@ -21,4 +21,27 @@
  */
 int app_gatt_notify_button(uint8_t state);
 
+/** Ask the connected phone to make itself findable.
+ *
+ *  Bumps a counter and notifies it, so a client can also see how many requests
+ *  it missed. The phone clears the counter back to zero by writing 0 to the
+ *  characteristic once it has handled or dismissed the request.
+ *
+ *  Sends an HCI command and can block; not for interrupt context.
+ */
+int app_gatt_notify_find_phone(void);
+
+/** Called from the Bluetooth thread when the peer clears the fall alarm. */
+typedef void (*app_gatt_fall_cleared_cb_t)(void);
+
+/** Register who should be told that the peer cleared the fall alarm. */
+void app_gatt_set_fall_cleared_cb(app_gatt_fall_cleared_cb_t cb);
+
+/** Report that the tag has been dropped.
+ *
+ *  Same shape as the find-phone characteristic: a counter the peer clears by
+ *  writing 0, which also stops the local alarm.
+ */
+int app_gatt_notify_fall(void);
+
 #endif /* APP_GATT_H_ */

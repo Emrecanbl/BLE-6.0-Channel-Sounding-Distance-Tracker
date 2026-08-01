@@ -2,7 +2,7 @@
 
 A battery-powered tracker that measures the **real distance** between two nRF54L15 devices using **Bluetooth 6.0 Channel Sounding**, and guides the user to the tag with distance-aware haptic and acoustic feedback.
 
-> **Status:** In development. Channel Sounding ranging works between the tag and an nRF54L15 DK acting as locator — distance values are produced over the air. The tag also exposes a custom GATT profile for its button and its LED / buzzer / vibration outputs. Everything in [Power architecture](#4-power-architecture) is still design intent, not running code.
+> **Status:** In development. Channel Sounding ranging works between the tag and an nRF54L15 DK acting as locator — distance values are produced over the air. The tag runs the IMU's own motion, tap and free-fall engines off an interrupt, turns a tap gesture into a find-my-phone request and a burst of free-fall reports into a drop alarm, and exposes all of it over a custom GATT profile. The MCU-side sleep states in [Power architecture](#4-power-architecture) are still design intent.
 
 Built on **Zephyr RTOS** with the nRF Connect SDK.
 
@@ -52,11 +52,11 @@ The tag stays in deep sleep until it is moved or called. The locator initiates r
 | Function | Detail | State |
 |---|---|---|
 | Battery | ~250 mAh LiPo | — |
-| Acoustic feedback | Buzzer | driven as plain GPIO on/off; PWM tone patterns planned |
-| Haptic feedback | Vibration motor | plain GPIO on/off |
-| Motion sensing | LSM6DS3TR-C | polled at 104 Hz over I²C; wake-on-motion interrupt planned |
+| Acoustic feedback | Buzzer | plain GPIO on/off with timed pulse and blink patterns; PWM tones planned |
+| Haptic feedback | Vibration motor | same output layer as the buzzer |
+| Motion sensing | LSM6DS3TR-C | interrupt-driven wake-up, double tap, free fall and inactivity on INT1, plus a 104 Hz polling loop for logging |
 
-Both the buzzer and the vibration motor are switched from GATT today, but their pins are still placeholders in firmware and are not yet wired to the prototype.
+Both the buzzer and the vibration motor are switched from GATT and by the alarm logic today, but their pins are still placeholders in firmware and are not yet wired to the prototype.
 
 > This is a **firmware and RF project**, not a PCB project — the hardware is a module-based prototype on perfboard. A custom PCB is a later stage, once the firmware and power behaviour are settled.
 
@@ -72,14 +72,14 @@ The XIAO nRF54L15 routes the radio through an RF switch that selects between the
 
 ## 4. Power architecture
 
-> **Not implemented yet.** This section describes the intended design. The firmware currently keeps the CPU awake, advertises continuously at a fast interval, and polls the IMU — none of the states below exist in code.
+> **Partly implemented.** The sensor half of the scheme runs; the MCU half does not. The CPU is still awake and advertising still runs continuously at a fast interval.
 
-On a 250 mAh cell, the interesting engineering is not the radio — it is **staying asleep**. The tag will use a tiered wake-up scheme instead of running continuously:
+On a 250 mAh cell, the interesting engineering is not the radio — it is **staying asleep**. The tag uses a tiered wake-up scheme instead of running continuously:
 
-1. **Deep sleep** — radio and CPU down, IMU running autonomously
-2. **Motion trigger** — LSM6DS3TR-C wake-on-motion interrupt brings the system up; the MCU is not involved in detecting motion
+1. **Deep sleep** — radio and CPU down, IMU running autonomously — *MCU side not implemented*
+2. **Motion trigger** — the LSM6DS3TR-C decides on its own that the tag has been moved and raises INT1; the MCU does no polling to notice motion — ✅ **running**. The same engine also drops the accelerometer to 12.5 Hz after ~25 s of stillness and raises it again by itself when motion returns.
 3. **Connectable / ranging** — BLE active, Channel Sounding bursts on demand
-4. **Find-Me** — buzzer and vibration motor active; the highest-current state by a wide margin
+4. **Find-Me / alarm** — buzzer and vibration motor active; the highest-current state by a wide margin — ✅ **running**, driven from the gesture and drop detection below
 
 The buzzer and vibration motor draw far more peak current than the radio ever does, so the feedback pattern is part of the power budget, not an afterthought. Energy behaviour of each state will be profiled with a **Nordic Power Profiler Kit II (PPK2)**.
 
