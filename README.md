@@ -89,19 +89,54 @@ The buzzer and vibration motor draw far more peak current than the radio ever do
 
 **Zephyr RTOS** on the nRF Connect SDK.
 
+Source is split by concern: `ble_cs` (connection, advertising, CS reflector), `app_gatt` (the custom profile), `imu`, `button`, `outputs`, and a `main` that owns only the start-up order and the wiring between them.
+
 **Running today**
 
 - **Channel Sounding ranging** against an nRF54L15 DK: the tag takes the reflector role, applies CS default settings and procedure parameters on connection, and serves ranging data through the **Ranging Service (RAS)** responder, so the locator gets real distance values
-- Custom **GATT profile** over 128-bit UUIDs: button state (read + notify), and LED, buzzer and vibration motor as writable on/off characteristics, each named with a User Description descriptor
+- **On-chip IMU detection.** Wake-up, double tap, free fall and activity/inactivity all run inside the LSM6DS3TR-C and reach the MCU as a single INT1 interrupt; the handler reads `WAKE_UP_SRC` / `TAP_SRC` to work out which one fired. Thresholds, durations and the inactivity mode are one configuration struct.
+- **Gesture and drop handling** — see [Interaction](#interaction) below
+- Custom **GATT profile** over 128-bit UUIDs, every characteristic carrying a User Description descriptor
+- Timed output primitives: one-shot pulses and repeating blink patterns, each output driving its own delayable work item, so nothing blocks a work queue
 - Board I/O straight off devicetree — `DT_ALIAS(sw0)` / `DT_ALIAS(led0)` with `gpio_dt_spec`, GPIO interrupt for the button, work queue hand-off so no Bluetooth call runs in ISR context
 - RF switch brought up and the ceramic antenna selected before `bt_enable()`
-- IMU sampling: LSM6DS3TR-C polled in its own thread, accelerometer and gyroscope logged over the serial console; the shared PDM/IMU supply rail is enabled from a `SYS_INIT` hook that runs before the sensor driver probes the chip
+- IMU sampling loop alongside the interrupts: accelerometer and gyroscope read at 104 Hz, low-pass filtered and exposed through a single accessor — the seam a gesture classifier will read from. The shared PDM/IMU supply rail is enabled from a `SYS_INIT` hook that runs before the sensor driver probes the chip.
+
+### The Zephyr driver only exposes data-ready
+
+Zephyr's `lsm6dsl` driver implements exactly one trigger, `SENSOR_TRIG_DATA_READY`, and asserts on anything else — the wake-up, tap, free-fall and inactivity engines are not reachable through the sensor API at all. This firmware configures them by writing the chip's registers directly over the same I²C bus and takes INT1 as a plain GPIO interrupt, which works as long as the driver is built with `CONFIG_LSM6DSL_TRIGGER_NONE` so it does not claim the pin for itself.
+
+### Interaction
+
+| Trigger | Result |
+|---|---|
+| Two double taps within 2 s | Vibration buzzes for 1 s and the tag arms |
+| The same gesture again within 5 s | **Find phone** — counter incremented and notified |
+| More than 4 free-fall reports within 1 s | **Fall detected** — buzzer and motor alternate at 500 ms, and the fall characteristic is notified |
+| Phone writes 0, or the tap gesture is repeated | Alarm stops and the counter clears |
+
+The find-phone request needs two gestures rather than one because a single knock against a table is far too easy to produce by accident. While the alarm is sounding the same gesture silences it instead of asking the phone for anything.
+
+### GATT profile
+
+Built on the Nordic LED Button Service UUID base, so the first characteristics are recognised by generic clients.
+
+| UUID suffix | Name | Access |
+|---|---|---|
+| `1524` | Button | read, notify |
+| `1525` | LED | read, write |
+| `1526` | Buzzer | read, write |
+| `1527` | Vibration motor | read, write |
+| `1528` | Find phone | read, write, notify |
+| `1529` | Fall detected | read, write, notify |
+
+The two event characteristics carry a counter rather than a flag, so a client that was disconnected or missed a notification can still tell that something happened; writing 0 acknowledges and clears it. Distance values do not appear here — those go over RAS.
 
 **Not yet**
 
-- Distance-aware behaviour on the tag itself: ranging data is served to the locator, but the tag does not act on distance (no Find-Me feedback tied to range)
-- Motion-driven power state machine
-- PWM buzzer patterns and vibration profiles
+- Distance-aware behaviour on the tag itself: ranging data is served to the locator, but the tag does not act on distance (no feedback tied to range)
+- MCU-side power state machine — the sensor sleeps itself, the CPU does not
+- PWM buzzer tones (the pattern layer exists, the tone generation does not)
 - Locator/initiator firmware (currently the upstream sample on the DK)
 
 ---
@@ -129,11 +164,13 @@ Numbers are only claimed here once they have been measured on hardware.
 |---|---|
 | Board bring-up (XIAO nRF54L15 Sense), incl. RF path fix | ✅ Working |
 | Channel Sounding ranging (tag ↔ nRF54L15 DK) | ✅ Working — distance values over RAS |
-| Custom GATT profile — button, LED, buzzer, vibration | ✅ Working |
-| IMU readout (polled, logged to serial) | ✅ Working |
+| Custom GATT profile — button, outputs, find-phone, fall | ✅ Working |
+| IMU on-chip detection — wake-up, double tap, free fall, inactivity | ✅ Working — interrupt-driven |
+| Tap gesture → find phone, free-fall burst → alarm | ✅ Working |
+| IMU readout (polled, filtered, logged to serial) | ✅ Working |
 | Ranging accuracy characterised against ground truth | 🟡 Not measured yet |
-| Buzzer / vibration Find-Me output | 🟡 Switchable over GATT; pins not wired, no PWM patterns |
-| IMU wake-on-motion power state machine | 🔜 Planned — IMU is polled today |
+| Buzzer / vibration output | 🟡 Pulse and blink patterns work; pins not wired, no PWM tones |
+| MCU-side power state machine (sleep, wake, adv tuning) | 🔜 Planned — the sensor sleeps itself, the CPU does not |
 | Power profiling with PPK2 | 🔜 Planned — needs the power state machine first |
 | Secure boot + signed OTA (MCUboot) | 🔜 Planned |
 | TinyML gesture recognition | 🔜 Planned |
@@ -145,7 +182,7 @@ Numbers are only claimed here once they have been measured on hardware.
 ## 8. Known limitations
 
 - **Reboot on disconnect.** The tag calls `sys_reboot(SYS_REBOOT_COLD)` when the link drops, inherited from the upstream Channel Sounding sample. It works around connection teardown state but is incompatible with the low-power design and has to go.
-- **Latent memory corruption.** An MPU fault inside `net_buf` pool allocation appeared once the button GPIO was initialised, with a fault address that moved between builds. It stopped reproducing after unrelated logging was added, which means it is hidden rather than fixed. Prime suspect is a thread stack overflow on the system work queue, which runs both `bt_gatt_notify()` and `bt_le_adv_update_data()`. Not yet diagnosed.
+- **Latent memory corruption.** An MPU fault inside `net_buf` pool allocation appears once a GPIO interrupt is enabled, always at the same instruction but with a fault address that moves between builds — the pool's buffer pointer reads back as garbage. Adding unrelated logging made it stop reproducing, and rearranging the source into modules brought it back, so it is a layout-sensitive corruption rather than anything the surrounding code does. One capture showed the core in LOCKUP after a double fault, meaning the fault handler itself could not run, which points at a corrupted stack. Prime suspect is a stack overflow on the system work queue, which runs both `bt_gatt_notify()` and `bt_le_adv_update_data()`. Not yet diagnosed.
 - **Advertising is not power-aware.** Advertising runs continuously at a fast interval; the slow-interval parameters in the source are unused.
 
 ---
