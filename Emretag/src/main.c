@@ -259,19 +259,16 @@ int main(void)
 		LOG_ERR("Output init failed (err %d)", err);
 		return -1;
 	}
-	LOG_ERR("1");
 	select_ceramic_antenna();
 	LOG_ERR("1.5");	
 	LOG_ERR("1.70");
 	app_gatt_set_fall_cleared_cb(on_fall_cleared_by_peer);
 
-	err = ble_cs_start();	
-	LOG_ERR("1.75");	
+	err = ble_cs_start();		
 	if (err) {
 		return -1;
 		LOG_ERR("CS init failed (err %d)", err);
 	}
-	LOG_ERR("2");	
 	/* Last, so that a button press can never reach the Bluetooth stack
 	 * before advertising is running.
 	 */
@@ -280,7 +277,6 @@ int main(void)
 		LOG_ERR("Button init failed (err %d)", err);
 		return -1;
 	}
-	LOG_ERR("3");
 	/* At the +/-2 g full scale set in prj.conf: wake threshold 8 is about
 	 * 250 mg, and requiring 2 consecutive samples rejects single knocks.
 	 * Turn these down if the tag misses being picked up, up if it triggers
@@ -310,7 +306,6 @@ int main(void)
 	if (err) {
 		LOG_WRN("Motion detection unavailable (err %d)", err);
 	}
-	LOG_ERR("4");
 	ble_cs_run();
 
 	return 0;
