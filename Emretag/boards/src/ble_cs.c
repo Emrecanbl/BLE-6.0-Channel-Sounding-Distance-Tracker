@@ -1,0 +1,337 @@
+/*
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+ */
+
+#include <zephyr/kernel.h>
+#include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/conn.h>
+#include <zephyr/bluetooth/cs.h>
+#include <zephyr/bluetooth/gap.h>
+#include <zephyr/bluetooth/uuid.h>
+#include <zephyr/drivers/regulator.h>
+#include <zephyr/settings/settings.h>
+#include <zephyr/sys/byteorder.h>
+#include <zephyr/sys/reboot.h>
+#include <zephyr/logging/log.h>
+
+#include <bluetooth/services/ras.h>
+
+#include "ble_cs.h"
+#include "outputs.h"
+
+LOG_MODULE_REGISTER(ble_cs, LOG_LEVEL_INF);
+
+#define COMPANY_ID_CODE 0x0059
+
+static K_SEM_DEFINE(sem_connected, 0, 1);
+static K_SEM_DEFINE(sem_config, 0, 1);
+
+static struct bt_conn *connection;
+
+struct adv_mfg_data {
+	uint16_t company_code;	/* Company Identifier Code. */
+	uint16_t number_press;	/* Number of times the button was pressed. */
+};
+
+static struct adv_mfg_data adv_mfg_data = { COMPANY_ID_CODE, 0x00 };
+
+static const struct bt_data ad[] = {
+	BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
+	BT_DATA_BYTES(BT_DATA_UUID16_ALL, BT_UUID_16_ENCODE(BT_UUID_RANGING_SERVICE_VAL)),
+	BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME, sizeof(CONFIG_BT_DEVICE_NAME) - 1),
+	BT_DATA(BT_DATA_MANUFACTURER_DATA, (unsigned char *)&adv_mfg_data, sizeof(adv_mfg_data)),
+};
+
+/* 0x17 is the "https://" URI scheme prefix. */
+static const unsigned char url_data[] = { 0x17, '/', '/', 'g', 'i', 't', 'h', 'u', 'b', '.', 'c',
+					  'o', 'm', '/', 'E', 'm', 'r', 'e', 'c', 'a', 'n', 'b',
+					  'l' };
+
+static const struct bt_data sd[] = {
+	BT_DATA(BT_DATA_URI, url_data, sizeof(url_data)),
+};
+
+static void connected_cb(struct bt_conn *conn, uint8_t err)
+{
+	char addr[BT_ADDR_LE_STR_LEN];
+
+	(void)bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
+	LOG_INF("Connected to %s (err 0x%02X)", addr, err);
+
+	if (err) {
+		bt_conn_unref(conn);
+		connection = NULL;
+	} else {
+		connection = bt_conn_ref(conn);
+
+		k_sem_give(&sem_connected);
+
+		outputs_set(&led, 1);
+	}
+}
+
+static void disconnected_cb(struct bt_conn *conn, uint8_t reason)
+{
+	LOG_INF("Disconnected (reason 0x%02X)", reason);
+
+	bt_conn_unref(conn);
+	connection = NULL;
+
+	outputs_set(&led, 0);
+
+	/* Inherited from the upstream Channel Sounding sample: a cold reboot
+	 * sidesteps tearing the CS state down by hand. Incompatible with the
+	 * low-power design and has to go once teardown is handled properly.
+	 */
+	sys_reboot(SYS_REBOOT_COLD);
+}
+
+static void remote_capabilities_cb(struct bt_conn *conn, uint8_t status,
+				   struct bt_conn_le_cs_capabilities *params)
+{
+	ARG_UNUSED(conn);
+	ARG_UNUSED(params);
+
+	if (status == BT_HCI_ERR_SUCCESS) {
+		LOG_INF("CS capability exchange completed.");
+	} else {
+		LOG_WRN("CS capability exchange failed. (HCI status 0x%02x)", status);
+	}
+}
+
+static void config_create_cb(struct bt_conn *conn, uint8_t status,
+			     struct bt_conn_le_cs_config *config)
+{
+	ARG_UNUSED(conn);
+
+	if (status != BT_HCI_ERR_SUCCESS) {
+		LOG_WRN("CS config creation failed. (HCI status 0x%02x)", status);
+		return;
+	}
+
+	const char *mode_str[5] = { "Unused", "1 (RTT)", "2 (PBR)", "3 (RTT + PBR)", "Invalid" };
+	const char *role_str[3] = { "Initiator", "Reflector", "Invalid" };
+	const char *rtt_type_str[8] = { "AA only",	 "32-bit sounding", "96-bit sounding",
+					"32-bit random", "64-bit random",   "96-bit random",
+					"128-bit random", "Invalid" };
+	const char *phy_str[4] = { "Invalid", "LE 1M PHY", "LE 2M PHY", "LE 2M 2BT PHY" };
+	const char *chsel_type_str[3] = { "Algorithm #3b", "Algorithm #3c", "Invalid" };
+	const char *ch3c_shape_str[3] = { "Hat shape", "X shape", "Invalid" };
+
+	uint8_t mode_idx = config->mode > 0 && config->mode < 4 ? config->mode : 4;
+	uint8_t role_idx = MIN(config->role, 2);
+	uint8_t rtt_type_idx = MIN(config->rtt_type, 7);
+	uint8_t phy_idx = config->cs_sync_phy > 0 && config->cs_sync_phy < 4 ? config->cs_sync_phy
+									    : 0;
+	uint8_t chsel_type_idx = MIN(config->channel_selection_type, 2);
+	uint8_t ch3c_shape_idx = MIN(config->ch3c_shape, 2);
+
+	LOG_INF("CS config creation complete.\n"
+		" - id: %u\n"
+		" - mode: %s\n"
+		" - min_main_mode_steps: %u\n"
+		" - max_main_mode_steps: %u\n"
+		" - main_mode_repetition: %u\n"
+		" - mode_0_steps: %u\n"
+		" - role: %s\n"
+		" - rtt_type: %s\n"
+		" - cs_sync_phy: %s\n"
+		" - channel_map_repetition: %u\n"
+		" - channel_selection_type: %s\n"
+		" - ch3c_shape: %s\n"
+		" - ch3c_jump: %u\n"
+		" - t_ip1_time_us: %u\n"
+		" - t_ip2_time_us: %u\n"
+		" - t_fcs_time_us: %u\n"
+		" - t_pm_time_us: %u\n"
+		" - channel_map: 0x%08X%08X%04X\n",
+		config->id, mode_str[mode_idx], config->min_main_mode_steps,
+		config->max_main_mode_steps, config->main_mode_repetition, config->mode_0_steps,
+		role_str[role_idx], rtt_type_str[rtt_type_idx], phy_str[phy_idx],
+		config->channel_map_repetition, chsel_type_str[chsel_type_idx],
+		ch3c_shape_str[ch3c_shape_idx], config->ch3c_jump, config->t_ip1_time_us,
+		config->t_ip2_time_us, config->t_fcs_time_us, config->t_pm_time_us,
+		sys_get_le32(&config->channel_map[6]), sys_get_le32(&config->channel_map[2]),
+		sys_get_le16(&config->channel_map[0]));
+
+	k_sem_give(&sem_config);
+}
+
+static void security_enable_cb(struct bt_conn *conn, uint8_t status)
+{
+	ARG_UNUSED(conn);
+
+	if (status == BT_HCI_ERR_SUCCESS) {
+		LOG_INF("CS security enabled.");
+	} else {
+		LOG_WRN("CS security enable failed. (HCI status 0x%02x)", status);
+	}
+}
+
+static void procedure_enable_cb(struct bt_conn *conn, uint8_t status,
+				struct bt_conn_le_cs_procedure_enable_complete *params)
+{
+	ARG_UNUSED(conn);
+
+	if (status != BT_HCI_ERR_SUCCESS) {
+		LOG_WRN("CS procedures enable failed. (HCI status 0x%02x)", status);
+		return;
+	}
+
+	if (params->state != 1) {
+		LOG_INF("CS procedures disabled.");
+		return;
+	}
+
+	LOG_INF("CS procedures enabled:\n"
+		" - config ID: %u\n"
+		" - antenna configuration index: %u\n"
+		" - TX power: %d dbm\n"
+		" - subevent length: %u us\n"
+		" - subevents per event: %u\n"
+		" - subevent interval: %u\n"
+		" - event interval: %u\n"
+		" - procedure interval: %u\n"
+		" - procedure count: %u\n"
+		" - maximum procedure length: %u",
+		params->config_id, params->tone_antenna_config_selection,
+		params->selected_tx_power, params->subevent_len, params->subevents_per_event,
+		params->subevent_interval, params->event_interval, params->procedure_interval,
+		params->procedure_count, params->max_procedure_len);
+}
+
+BT_CONN_CB_DEFINE(conn_cb) = {
+	.connected = connected_cb,
+	.disconnected = disconnected_cb,
+	.le_cs_read_remote_capabilities_complete = remote_capabilities_cb,
+	.le_cs_config_complete = config_create_cb,
+	.le_cs_security_enable_complete = security_enable_cb,
+	.le_cs_procedure_enable_complete = procedure_enable_cb,
+};
+
+/*
+ * The board routes the radio through an RF switch that selects between the
+ * on-board ceramic antenna and the external u.FL connector. Nothing enables the
+ * switch at start-up, and the upstream samples - including the Channel Sounding
+ * ones - are unaware of it, which leaves the RF path undefined and cripples the
+ * link budget.
+ *
+ * Measured on this board: enabling the switch and selecting the ceramic antenna
+ * extended usable ranging distance from ~2-3 m to >12 m.
+ *
+ *   rfsw_pwr : powers the RF switch (must stay enabled)
+ *   rfsw_ctl : path select - inactive = ceramic antenna, active = external u.FL
+ *
+ * Only route to u.FL when an antenna is actually attached to the connector.
+ */
+static const struct device *const rfsw_pwr = DEVICE_DT_GET(DT_NODELABEL(rfsw_pwr));
+static const struct device *const rfsw_ctl = DEVICE_DT_GET(DT_NODELABEL(rfsw_ctl));
+
+static int select_ceramic_antenna(void)
+{
+	int err;
+
+	if (!device_is_ready(rfsw_pwr) || !device_is_ready(rfsw_ctl)) {
+		LOG_ERR("RF switch regulators are not ready");
+		return -ENODEV;
+	}
+
+	err = regulator_enable(rfsw_pwr);
+	if (err) {
+		LOG_ERR("Failed to power the RF switch (err %d)", err);
+		return err;
+	}
+
+	k_msleep(1);	/* let the switch supply settle */
+
+	err = regulator_enable(rfsw_ctl);
+	if (err) {
+		LOG_ERR("Failed to select the antenna path (err %d)", err);
+		return err;
+	}
+
+	LOG_INF("RF path set to the on-board ceramic antenna");
+
+	return 0;
+}
+
+int ble_cs_start(void)
+{
+	int err;
+
+	/* Before the radio comes up, or the link budget suffers. */
+	err = select_ceramic_antenna();
+	if (err) {
+		return err;
+	}
+
+	err = bt_enable(NULL);
+	if (err) {
+		LOG_ERR("Bluetooth init failed (err %d)", err);
+		return err;
+	}
+
+	if (IS_ENABLED(CONFIG_BT_SETTINGS)) {
+		settings_load();
+	}
+
+	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_2, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+	if (err) {
+		LOG_ERR("Advertising failed to start (err %d)", err);
+		return err;
+	}
+
+	return 0;
+}
+
+int ble_cs_set_press_count(uint16_t count)
+{
+	adv_mfg_data.number_press = count;
+
+	return bt_le_adv_update_data(ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+}
+
+void ble_cs_run(void)
+{
+	while (true) {
+		int err;
+
+		k_sem_take(&sem_connected, K_FOREVER);
+
+		const struct bt_le_cs_set_default_settings_param default_settings = {
+			.enable_initiator_role = false,
+			.enable_reflector_role = true,
+			.cs_sync_antenna_selection = BT_LE_CS_ANTENNA_SELECTION_OPT_REPETITIVE,
+			.max_tx_power = BT_HCI_OP_LE_CS_MAX_MAX_TX_POWER,
+		};
+
+		err = bt_le_cs_set_default_settings(connection, &default_settings);
+		if (err) {
+			LOG_ERR("Failed to configure default CS settings (err %d)", err);
+			continue;
+		}
+
+		k_sem_take(&sem_config, K_FOREVER);
+
+		const struct bt_le_cs_set_procedure_parameters_param procedure_params = {
+			.config_id = 0,
+			.max_procedure_len = 1000,
+			.min_procedure_interval = 1,
+			.max_procedure_interval = 100,
+			.max_procedure_count = 0,
+			.min_subevent_len = 10000,
+			.max_subevent_len = 75000,
+			.tone_antenna_config_selection = BT_LE_CS_TONE_ANTENNA_CONFIGURATION_A1_B1,
+			.phy = BT_LE_CS_PROCEDURE_PHY_2M,
+			.tx_power_delta = 0x80,
+			.preferred_peer_antenna = BT_LE_CS_PROCEDURE_PREFERRED_PEER_ANTENNA_1,
+			.snr_control_initiator = BT_LE_CS_SNR_CONTROL_NOT_USED,
+			.snr_control_reflector = BT_LE_CS_SNR_CONTROL_NOT_USED,
+		};
+
+		err = bt_le_cs_set_procedure_parameters(connection, &procedure_params);
+		if (err) {
+			LOG_ERR("Failed to set procedure parameters (err %d)", err);
+		}
+	}
+}

@@ -1,0 +1,37 @@
+/*
+ * Buzzer and vibration motor. The board devicetree does not describe them, so
+ * the tag adds them here.
+ *
+ * Pins are XIAO connector numbers (D0..D15), mapped in
+ * seeed_xiao_connector.dtsi. CHANGE THESE TO MATCH YOUR WIRING - D0 and D1 are
+ * placeholders. Check before using D6..D10 or D13..D15: those land on gpio2,
+ * which also carries the LED (pin 0) and the RF switch (pins 3 and 5).
+ *
+ * Use GPIO_ACTIVE_LOW instead of GPIO_ACTIVE_HIGH if the driver transistor
+ * turns the load on when the pin is pulled low. Nothing in the C code needs to
+ * change; gpio_pin_set_dt() works in logical levels.
+ *
+ * "gpio-leds" is used as the compatible because it is Zephyr's generic binding
+ * for a set of GPIO outputs - it is not saying these are LEDs.
+ */
+
+/ {
+	tag_outputs {
+		compatible = "gpio-leds";
+
+		buzzer: buzzer {
+			gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>;	/* D0 -> P1.04 */
+			label = "Buzzer";
+		};
+
+		vibration_motor: vibration-motor {
+			gpios = <&xiao_d 1 GPIO_ACTIVE_HIGH>;	/* D1 -> P1.05 */
+			label = "Vibration motor";
+		};
+	};
+
+	aliases {
+		buzzer = &buzzer;
+		vibration-motor = &vibration_motor;
+	};
+};
