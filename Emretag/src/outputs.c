@@ -9,23 +9,12 @@
 
 LOG_MODULE_REGISTER(outputs, LOG_LEVEL_INF);
 
-#define LED0_NODE DT_ALIAS(led0)
-
-/* Buzzer and vibration motor are not described by the board devicetree, so the
- * pins are given here. Port/pin follow the XIAO connector mapping in
- * seeed_xiao_connector.dtsi; use GPIO_ACTIVE_LOW if the driver transistor turns
- * the load on when the pin is pulled low.
- *
- * CHANGE THESE TO MATCH YOUR WIRING - D0/D1 are only placeholders. Watch out
- * for gpio2: it also carries the LED (pin 0) and the RF switch (pins 3 and 5).
+/* led0 comes from the board; buzzer and vibration-motor are added by
+ * boards/xiao_nrf54l15_nrf54l15_cpuapp.overlay.
  */
-#define BUZZER_PORT  DT_NODELABEL(gpio1)
-#define BUZZER_PIN   4			/* D0 -> P1.04 */
-#define BUZZER_FLAGS GPIO_ACTIVE_HIGH
-
-#define VIB_PORT  DT_NODELABEL(gpio1)
-#define VIB_PIN   5			/* D1 -> P1.05 */
-#define VIB_FLAGS GPIO_ACTIVE_HIGH
+#define LED0_NODE   DT_ALIAS(led0)
+#define BUZZER_NODE DT_ALIAS(buzzer)
+#define VIB_NODE    DT_ALIAS(vibration_motor)
 
 struct gpio_output led = {
 	.spec = GPIO_DT_SPEC_GET(LED0_NODE, gpios),
@@ -33,13 +22,12 @@ struct gpio_output led = {
 };
 
 struct gpio_output buzzer = {
-	.spec = { .port = DEVICE_DT_GET(BUZZER_PORT), .pin = BUZZER_PIN,
-		  .dt_flags = BUZZER_FLAGS },
+	.spec = GPIO_DT_SPEC_GET(BUZZER_NODE, gpios),
 	.name = "Buzzer",
 };
 
 struct gpio_output vibration_motor = {
-	.spec = { .port = DEVICE_DT_GET(VIB_PORT), .pin = VIB_PIN, .dt_flags = VIB_FLAGS },
+	.spec = GPIO_DT_SPEC_GET(VIB_NODE, gpios),
 	.name = "Vibration motor",
 };
 
@@ -47,8 +35,8 @@ static struct gpio_output *const outputs[] = { &led, &buzzer, &vibration_motor }
 
 static void output_tick_work_handler(struct k_work *work)
 {
-	struct k_work_delayable *dwork = k_work_delayable_from_work(work);
-	struct gpio_output *out = CONTAINER_OF(dwork, struct gpio_output, tick_work);
+	struct k_work_delayable *dwork = k_work_delayable_from_work(work); // assing to who called the function (led buzzer vibration_motor))
+	struct gpio_output *out = CONTAINER_OF(dwork, struct gpio_output, tick_work); // adding feature gpio_output
 	uint8_t next;
 
 	if (!out->repeating) {

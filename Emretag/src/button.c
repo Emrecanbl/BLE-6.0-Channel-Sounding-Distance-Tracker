@@ -18,8 +18,8 @@ static struct gpio_callback button_cb_data;
 static button_cb_t user_cb;
 
 /* 1 while the button is held down, 0 once it is released. */
-static uint8_t button_state;
-static uint16_t press_count;
+static volatile uint8_t button_state;
+static volatile uint16_t press_count;
 
 /* The GATT and advertising calls the application makes from the callback can
  * block, so they must not run in the GPIO ISR. The ISR only samples the pin and

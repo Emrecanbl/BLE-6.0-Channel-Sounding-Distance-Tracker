@@ -12,6 +12,76 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/* ------------------------------------------------------------------------
+ * Motion detection.
+ *
+ * The Zephyr LSM6DSL driver only implements SENSOR_TRIG_DATA_READY, so the
+ * wake-up, tap and free-fall engines are not reachable through the sensor API.
+ * They are configured here by writing the chip's registers directly over the
+ * same I2C bus, and INT1 is taken as a plain GPIO interrupt.
+ *
+ * This only works while the driver is built with CONFIG_LSM6DSL_TRIGGER_NONE:
+ * otherwise the driver claims irq-gpios for its own data-ready handler.
+ *
+ * Register map: LSM6DS3TR-C datasheet, register-compatible with the LSM6DSL.
+ * ------------------------------------------------------------------------ */
+
+#define LSM6_REG_WAKE_UP_SRC		 0x1B
+#define LSM6_WAKE_UP_SRC_FF_IA		 BIT(5)
+#define LSM6_WAKE_UP_SRC_SLEEP_STATE_IA	 BIT(4)
+#define LSM6_WAKE_UP_SRC_WU_IA		 BIT(3)
+
+#define LSM6_REG_TAP_SRC 0x1C
+#define LSM6_TAP_SRC_SINGLE_TAP BIT(5)
+#define LSM6_TAP_SRC_DOUBLE_TAP BIT(4)
+
+#define LSM6_REG_TAP_CFG 0x58
+#define LSM6_TAP_CFG_INTERRUPTS_ENABLE BIT(7)
+#define LSM6_TAP_CFG_INACT_EN_SHIFT    5
+#define LSM6_TAP_CFG_INACT_EN_MASK     0x03
+#define LSM6_TAP_CFG_SLOPE_FDS	       BIT(4)
+#define LSM6_TAP_CFG_TAP_X_EN	       BIT(3)
+#define LSM6_TAP_CFG_TAP_Y_EN	       BIT(2)
+#define LSM6_TAP_CFG_TAP_Z_EN	       BIT(1)
+#define LSM6_TAP_CFG_LIR	       BIT(0)
+
+#define LSM6_REG_TAP_THS_6D   0x59
+#define LSM6_TAP_THS_6D_MASK  0x1F
+
+/* DUR = double-tap window, QUIET = dead time after a peak, SHOCK = maximum
+ * duration of the peak itself. 0x7F is the value ST's own examples use and it
+ * works for a tap through a plastic enclosure.
+ */
+#define LSM6_REG_INT_DUR2	0x5A
+#define LSM6_INT_DUR2_DEFAULT	0x7F
+
+#define LSM6_REG_WAKE_UP_THS		 0x5B
+#define LSM6_WAKE_UP_THS_MASK		 0x3F
+#define LSM6_WAKE_UP_THS_SINGLE_DOUBLE_TAP BIT(7)
+
+/* FF_DUR is split across two registers: the low five bits sit at 7:3 here, the
+ * sixth is WAKE_UP_DUR bit 7. Note that the Zephyr driver header carries a
+ * FREE_FALL duration shift of 4 while its own mask covers bits 7:3 - the driver
+ * never touches free fall, so the inconsistency has gone unnoticed. 3 is right.
+ */
+#define LSM6_REG_FREE_FALL	  0x5D
+#define LSM6_FREE_FALL_DUR_SHIFT  3
+#define LSM6_FREE_FALL_DUR_MASK	  0x1F
+#define LSM6_FREE_FALL_THS_MASK	  0x07
+#define LSM6_FREE_FALL_DUR5_BIT	  BIT(5)
+
+#define LSM6_REG_WAKE_UP_DUR	     0x5C
+#define LSM6_WAKE_UP_DUR_FF_DUR5     BIT(7)
+#define LSM6_WAKE_UP_DUR_WAKE_SHIFT  5
+#define LSM6_WAKE_UP_DUR_WAKE_MASK   0x03
+#define LSM6_WAKE_UP_DUR_SLEEP_MASK  0x0F
+
+#define LSM6_REG_MD1_CFG 0x5E
+#define LSM6_MD1_CFG_INT1_INACT_STATE BIT(7)
+#define LSM6_MD1_CFG_INT1_SINGLE_TAP BIT(6)
+#define LSM6_MD1_CFG_INT1_WU	     BIT(5)
+#define LSM6_MD1_CFG_INT1_FF	     BIT(4)
+#define LSM6_MD1_CFG_INT1_DOUBLE_TAP BIT(3)
 /** One filtered IMU reading. */
 struct imu_sample {
 	double accel[3];	/**< Acceleration, m/s^2, X/Y/Z. */

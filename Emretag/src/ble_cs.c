@@ -8,6 +8,7 @@
 #include <zephyr/bluetooth/cs.h>
 #include <zephyr/bluetooth/gap.h>
 #include <zephyr/bluetooth/uuid.h>
+#include <zephyr/drivers/regulator.h>
 #include <zephyr/settings/settings.h>
 #include <zephyr/sys/byteorder.h>
 #include <zephyr/sys/reboot.h>
@@ -208,9 +209,61 @@ BT_CONN_CB_DEFINE(conn_cb) = {
 	.le_cs_procedure_enable_complete = procedure_enable_cb,
 };
 
+/*
+ * The board routes the radio through an RF switch that selects between the
+ * on-board ceramic antenna and the external u.FL connector. Nothing enables the
+ * switch at start-up, and the upstream samples - including the Channel Sounding
+ * ones - are unaware of it, which leaves the RF path undefined and cripples the
+ * link budget.
+ *
+ * Measured on this board: enabling the switch and selecting the ceramic antenna
+ * extended usable ranging distance from ~2-3 m to >12 m.
+ *
+ *   rfsw_pwr : powers the RF switch (must stay enabled)
+ *   rfsw_ctl : path select - inactive = ceramic antenna, active = external u.FL
+ *
+ * Only route to u.FL when an antenna is actually attached to the connector.
+ */
+static const struct device *const rfsw_pwr = DEVICE_DT_GET(DT_NODELABEL(rfsw_pwr));
+static const struct device *const rfsw_ctl = DEVICE_DT_GET(DT_NODELABEL(rfsw_ctl));
+
+static int select_ceramic_antenna(void)
+{
+	int err;
+
+	if (!device_is_ready(rfsw_pwr) || !device_is_ready(rfsw_ctl)) {
+		LOG_ERR("RF switch regulators are not ready");
+		return -ENODEV;
+	}
+
+	err = regulator_enable(rfsw_pwr);
+	if (err) {
+		LOG_ERR("Failed to power the RF switch (err %d)", err);
+		return err;
+	}
+
+	k_msleep(1);	/* let the switch supply settle */
+
+	err = regulator_enable(rfsw_ctl);
+	if (err) {
+		LOG_ERR("Failed to select the antenna path (err %d)", err);
+		return err;
+	}
+
+	LOG_INF("RF path set to the on-board ceramic antenna");
+
+	return 0;
+}
+
 int ble_cs_start(void)
 {
 	int err;
+
+	/* Before the radio comes up, or the link budget suffers. */
+	err = select_ceramic_antenna();
+	if (err) {
+		return err;
+	}
 
 	err = bt_enable(NULL);
 	if (err) {
